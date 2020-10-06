@@ -17,7 +17,7 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   const header = () => {
-    const dateFormat = "mmmm yyyy"
+    const dateFormat = "MMMM yyyy"
     return (
       <div className="header row flex-middle">
         <div className="column col-start">
@@ -38,13 +38,13 @@ const Calendar = () => {
   }
 
   const days = () => {
-    const dateFormat = "ddd"
     const days = []
-    const startDate = startOfWeek(currentDate)
+    const daysOfWeek = ['SUN','MON','TUE','WED','THU','FRI','SAT']
     for (let i = 0; i < 7; i += 1) {
       days.push(
         <div className="column col-center" key={i}>
-          {format(addDays(startDate, i), dateFormat)}
+          {/* {format(addDays(startDate, i), dateFormat)} */}
+          {daysOfWeek[i]}
         </div>
       )
     }

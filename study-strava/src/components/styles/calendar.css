@@ -1,20 +1,20 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 .icon {
-font-family: 'Material Icons', serif;
-font-style: normal;
-display: inline-block;
-vertical-align: middle;
-line-height: 1;
-text-transform: none;
-letter-spacing: normal;
-word-wrap: normal;
-white-space: nowrap;
-direction: ltr;
--webkit-font-smoothing: antialiased;
-text-rendering: optimizeLegibility;
--moz-osx-font-smoothing: grayscale;
-font-feature-settings: 'liga';
+  font-family: 'Material Icons', serif;
+  font-style: normal;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
 }
 /* GENERAL */
 * {
@@ -55,7 +55,7 @@ max-width: 100%;
 .calendar {
 display: block;
 position: relative;
-width: 90%;
+width: 50%;
 background: white;
 border: 1px solid lightgray;
 height: auto;
@@ -93,7 +93,7 @@ border-bottom: 1px solid lightgray;
 }
 .calendar .body .cell {
 position: relative;
-height: 6em;
+height: 10em;
 border-right: 1px solid lightgray;
 overflow: hidden;
 cursor: pointer;
