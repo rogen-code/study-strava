@@ -6,12 +6,31 @@ function Navbar() {
 
   return (
     <div className="navbar">
-      <NavbarItem
-        txt="Dashboard"
-        dropdown={["Activity Feed", "My Study Sessions"]}
-      />
-      {/* <NavbarItem txt="Calendar"/>
-      <NavbarItem txt="Explore"/> */}
+      <div id="left">
+        <NavbarItem
+          txt="Dashboard"
+          dropdown={["Activity Feed", "Upcoming Tests"]}
+        />
+        <NavbarItem
+          txt="Studying"
+          dropdown={["Study Calendar", "Study Log"]}
+        />
+        <NavbarItem
+          txt="Explore"
+          dropdown={["Study Calendar", "Study Log"]}
+        />
+      </div>
+      <div id="right">
+        <NavbarItem
+          txt="Dashboard"
+          dropdown={["Activity Feed", "Upcoming Tests"]}
+        />
+        <NavbarItem
+          txt="Studying"
+          dropdown={["Study Calendar", "Study Log"]}
+        />
+      </div>
+
     </div>
   )
 }

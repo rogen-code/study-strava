@@ -1,4 +1,43 @@
+* {
+  margin: 0;
+}
 .navbar {
   display: flex;
+  width: 100%;
   flex-direction: row;
+  height: 75px;
+  background-color: red;
+  padding-top: 1em;
+  font-size: 125%;
+}
+
+.navbar #left {
+  display: flex;
+  width: 100%;
+  margin-left: 3em;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.navbar #right {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  flex-direction: row;
+}
+
+
+.navbar-item {
+  width: 130px;
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+  cursor: pointer;
+}
+
+.navbar-select {
+  border: 1px solid black;
+}
+
+.navbar-select:hover {
+  color: dodgerblue;
 }

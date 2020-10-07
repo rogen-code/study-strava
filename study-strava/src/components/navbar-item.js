@@ -8,12 +8,20 @@ function NavbarItem({ txt, dropdown }) {
   }
 
   return (
-    <div onMouseEnter={handleHover} onMouseLeave={handleHover}>
+    <div
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+      className="navbar-item"
+    >
       <div>{txt}</div>
-      {visible && dropdown.map((item, i) => <div key={i}>{item}</div>)}
+      {visible &&
+        dropdown.map((item, i) => (
+          <div className="navbar-select" key={i}>
+            {item}
+          </div>
+        ))}
     </div>
   )
-
 }
 
 export default NavbarItem
