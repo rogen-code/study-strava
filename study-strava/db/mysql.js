@@ -1,17 +1,24 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'study_strava'
+  database: 'study_strava',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-module.exports.getAll = () => {
-  return new Promise(function(resolve, reject) {
-    connection.query('SELECT * from cows', function (error, results, fields) {
-      if (error) reject(error);
-      resolve(results)
-    })
+
+module.exports.writeSchools = (schoolName) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Schools (school_name) VALUES ("${schoolName}");`,
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
   })
-};
+}
