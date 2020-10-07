@@ -14,7 +14,21 @@ const pool = mysql.createPool({
 module.exports.writeSchools = (schoolName) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `INSERT INTO Schools (school_name) VALUES ("${schoolName}");`,
+      `INSERT INTO Schools (school_name) VALUES (?);`,
+      [schoolName],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.writeTeachers = (teacherName, schoolName) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Teachers (teacher_name, school_id) VALUES (?, (select school_id from Schools where school_name=?));`,
+      [teacherName, schoolName],
       (error, results) => {
         if (error) reject(error)
         resolve(results)

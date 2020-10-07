@@ -1,5 +1,5 @@
 /*  Execute this file from the command line by typing:
- *    mysql -u <USER> < schema.sql
+ *    mysql -u "root" < db/schema.sql
 */
 
 DROP DATABASE IF EXISTS study_strava;
@@ -32,6 +32,8 @@ CREATE TABLE Schools (
 CREATE TABLE Teachers (
   teacher_id INTEGER NOT NULL AUTO_INCREMENT,
   teacher_name VARCHAR(100) NULL DEFAULT NULL,
+  school_id int,
+  FOREIGN KEY (school_id) references Schools(school_id),
   PRIMARY KEY (teacher_id)
 );
 
