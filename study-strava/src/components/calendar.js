@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./styles/calendar.css";
+import React from "react"
+import "./styles/calendar.css"
 
 import addMonths from "date-fns/addMonths"
 import subMonths from "date-fns/subMonths"
@@ -12,16 +12,32 @@ import addDays from "date-fns/addDays"
 import isSameMonth from "date-fns/isSameMonth"
 import isSameDay from "date-fns/isSameDay"
 
-const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date())
-  const [selectedDate, setSelectedDate] = useState(new Date())
+const Calendar = ({
+  currentDate,
+  setCurrentDate,
+  selectedDate,
+  setSelectedDate
+}) => {
+  const nextMonth = () => {
+    setCurrentDate(addMonths(currentDate, 1))
+  }
+
+  const prevMonth = () => {
+    setCurrentDate(subMonths(currentDate, 1))
+  }
 
   const header = () => {
     const dateFormat = "MMMM yyyy"
     return (
       <div className="header row flex-middle">
         <div className="column col-start">
-          <div className="icon" onClick={prevMonth}>
+          <div
+            className="icon"
+            onClick={prevMonth}
+            onKeyDown={prevMonth}
+            role="button"
+            tabIndex="0"
+          >
             chevron_left
           </div>
         </div>
@@ -29,7 +45,13 @@ const Calendar = () => {
           <span>{format(currentDate, dateFormat)}</span>
         </div>
         <div className="column col-end">
-          <div className="icon" onClick={nextMonth}>
+          <div
+            className="icon"
+            onClick={nextMonth}
+            onKeyDown={prevMonth}
+            role="button"
+            tabIndex="-1"
+          >
             chevron_right
           </div>
         </div>
@@ -88,14 +110,6 @@ const Calendar = () => {
       days = []
     }
     return <div className="body">{rows}</div>
-  }
-
-  const nextMonth = () => {
-    setCurrentDate(addMonths(currentDate, 1))
-  }
-
-  const prevMonth = () => {
-    setCurrentDate(subMonths(currentDate, 1))
   }
 
   const onDateClick = (day) => {
