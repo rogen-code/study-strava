@@ -36,3 +36,16 @@ module.exports.writeTeachers = (teacherName, schoolName) => {
     )
   })
 }
+
+module.exports.writeClass = (className, teacherName, schoolName) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Classes (class_name, teacher_id, school_id) VALUES (?, (select teacher_id from Teachers where teacher_name=?), (select school_id from Schools where school_name=?));`,
+      [className, teacherName, schoolName],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
