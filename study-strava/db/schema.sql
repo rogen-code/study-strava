@@ -56,6 +56,22 @@ CREATE TABLE Classes (
 );
 
 -- ---
+-- Table 'Students'
+--
+-- ---
+
+DROP TABLE IF EXISTS Students;
+
+CREATE TABLE Students (
+  student_id INTEGER NOT NULL AUTO_INCREMENT,
+  student_name VARCHAR(255) NULL DEFAULT NULL,
+  school_id int,
+  FOREIGN KEY (school_id) references Schools(school_id),
+  PRIMARY KEY (student_id)
+);
+
+
+-- ---
 -- Table 'Classes_Students'
 --
 -- ---

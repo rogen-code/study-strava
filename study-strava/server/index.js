@@ -2,8 +2,12 @@ const express = require('express')
 const app = express()
 const port = 4000
 
-
-const { writeSchools, writeTeachers, writeClass } = require("../db/mysql")
+const {
+  writeSchools,
+  writeTeachers,
+  writeClass,
+  writeStudent
+} = require("../db/mysql")
 
 app.use(express.json())
 
@@ -12,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.post("/writeSchool", (req, res) => {
-  writeSchools(req.body.name)
+  writeSchools(req.body.schoolName)
     .then((result) => {
       res.send(result)
     })
@@ -21,7 +25,7 @@ app.post("/writeSchool", (req, res) => {
     })
 })
 
-app.post("/writeTeachers", (req, res) => {
+app.post("/writeTeacher", (req, res) => {
   writeTeachers(req.body.teacherName, req.body.schoolName)
     .then((result) => {
       res.send(result)
@@ -33,6 +37,16 @@ app.post("/writeTeachers", (req, res) => {
 
 app.post("/writeClass", (req, res) => {
   writeClass(req.body.className, req.body.teacherName, req.body.schoolName)
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+})
+
+app.post("/writeStudent", (req, res) => {
+  writeStudent(req.body.studentName, req.body.schoolName)
     .then((result) => {
       res.send(result)
     })
