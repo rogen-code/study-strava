@@ -63,3 +63,26 @@ module.exports.writeStudent = (studentName, schoolName) => {
   })
 }
 
+module.exports.registerClass = (
+  studentName,
+  schoolName,
+  className,
+  teacherName
+) => {
+  return new Promise((resolve, reject) => {
+
+    // select student_id from Students where student_name="Amy Rogen";
+
+    // select class_id from Classes where school_id=(select school_id from Schools where school_name="Hawken") AND teacher_id=(select teacher_id from Teachers where teacher_name="rogen") AND class_id=(select class_id from Classes where class_name="AP World History")
+
+    pool.query(
+      `INSERT INTO Classes_Students (class_id, student_id) VALUES ((select class_id from Classes where school_id=(select school_id from Schools where school_name=?) AND teacher_id=(select teacher_id from Teachers where teacher_name=?) AND class_id=(select class_id from Classes where class_name=?)), (select student_id from Students where student_name=?));`,
+      [schoolName, teacherName, className, studentName],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+

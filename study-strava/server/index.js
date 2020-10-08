@@ -6,7 +6,8 @@ const {
   writeSchools,
   writeTeachers,
   writeClass,
-  writeStudent
+  writeStudent,
+  registerClass
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -47,6 +48,21 @@ app.post("/writeClass", (req, res) => {
 
 app.post("/writeStudent", (req, res) => {
   writeStudent(req.body.studentName, req.body.schoolName)
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+})
+
+app.post("/registerClass", (req, res) => {
+  registerClass(
+    req.body.studentName,
+    req.body.schoolName,
+    req.body.className,
+    req.body.teacherName
+  )
     .then((result) => {
       res.send(result)
     })
