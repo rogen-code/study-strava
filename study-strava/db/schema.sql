@@ -95,5 +95,3 @@ CREATE TABLE Tests (
   test_name VARCHAR(255) NULL DEFAULT NULL,
   test_date VARCHAR(123) NULL DEFAULT NULL
 );
-
-
