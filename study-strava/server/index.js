@@ -1,20 +1,24 @@
 const express = require('express')
 const app = express()
 const port = 4000
+const cors = require('cors')
+
 
 const {
   writeSchools,
   writeTeachers,
   writeClass,
   writeStudent,
-  registerClass
+  registerClass,
+  getSchool,
+  getClasses,
 } = require("../db/mysql")
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use("/", express.static("build"))
+app.use("/:studentID", express.static("build"))
+app.use(cors())
 
 app.post("/writeSchool", (req, res) => {
   writeSchools(req.body.schoolName)
@@ -71,11 +75,39 @@ app.post("/registerClass", (req, res) => {
     })
 })
 
+app.get("/getSchool/:studentID", (req, res) => {
+  getSchool(req.params.studentID)
+    .then((name) => {
+      res.send(name)
+    })
+    .catch((e) => {
+      res.send(e)
+    })
+})
+
+app.get("/getClasses/:studentID", (req, res) => {
+  getClasses(req.params.studentID)
+    .then((name) => {
+      res.send(name)
+    })
+    .catch((e) => {
+      res.send(e)
+    })
+})
+
+app.get("/getStudentData/:studentID", (req, res) => {
+  Promise.all([
+    getClasses(req.params.studentID),
+    getSchool(req.params.studentID),
+  ])
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((e) => {
+      res.send(e)
+    })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
-
-
-//Add Schools
-
-//Add Classes To Schools

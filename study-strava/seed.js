@@ -68,8 +68,6 @@ for (const school in classes) {
   }
 }
 
-
-
 i = 0
 
 const students = {}

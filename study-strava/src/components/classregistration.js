@@ -1,7 +1,12 @@
 import React from "react";
+import axios from "axios"
 
 function ClassRegistration() {
-  return <h1>HelloWorld</h1>
+  return (
+      <div>
+        <button>Register Class</button>
+      </div>
+    )
 }
 
 export default ClassRegistration;

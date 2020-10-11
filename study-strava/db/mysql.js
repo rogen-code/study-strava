@@ -93,3 +93,34 @@ module.exports.registerClass = (
   })
 }
 
+module.exports.getSchool = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select school_name from schools where school_id=(select school_id from students where student_id=?)`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.getClasses = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select class_name from Classes where class_id=(select class_id from Classes_Students where student_id=?)`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+
+
+
+
+
