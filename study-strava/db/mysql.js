@@ -109,9 +109,10 @@ module.exports.getSchool = (studentID) => {
 module.exports.getClasses = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select class_name from Classes where class_id=(select class_id from Classes_Students where student_id=?)`,
+      `select * from Classes where class_id IN (select class_id from Classes_Students where student_id=?)`,
       [studentID],
       (error, results) => {
+        if (error) console.log(error)
         if (error) reject(error)
         resolve(results)
       }
