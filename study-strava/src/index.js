@@ -4,12 +4,13 @@ import axios from 'axios';
 
 import Calendar from "./components/calendar"
 import Navbar from "./components/navbar"
-import ClassRegistration from "./components/classregistration"
+import ClassRegistration from "./components/sidebar/classregistration"
 
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [school, setSchool] = useState("")
+  const [classes, setClasses] = useState([])
 
   useEffect(() => {
     const studentID = window.location.pathname
@@ -18,6 +19,8 @@ function App() {
       .then((res) => {
         const schoolName = res.data[1][0].school_name
         setSchool(schoolName)
+        const classesNames = res.data[0]
+        setClasses(classesNames)
       })
       .catch((e) => {
         console.log(e)
@@ -34,7 +37,7 @@ function App() {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <ClassRegistration />
+        <ClassRegistration school={school} classes={classes} />
       </div>
     </div>
   )

@@ -12,6 +12,7 @@ const {
   registerClass,
   getSchool,
   getClasses,
+  getAllClassesAtSchool,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -107,6 +108,21 @@ app.get("/getStudentData/:studentID", (req, res) => {
       res.send(e)
     })
 })
+
+app.get("/getAllClassesAtSchool/:schoolName", (req, res) => {
+  getAllClassesAtSchool(req.params.schoolName)
+    .then((classes) => {
+      res.send(classes)
+    })
+    .catch((e) => {
+      res.send(e)
+    })
+})
+
+
+
+getAllClassesAtSchool
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
