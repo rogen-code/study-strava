@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import Calendar from "./components/calendar"
 import Navbar from "./components/navbar"
-import ClassRegistration from "./components/sidebar/classregistration"
+import ClassRegistration from "./components/sidebar/ClassRegistration"
 
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date())

@@ -1,9 +1,15 @@
 import React from "react"
 
 import ClassButton from "./classButton"
-import SchoolButton from "./schoolButton"
+import SchoolButton from "./SchoolButton"
 
-function ClassRegistration({ school, classes, studentName, setUpdate, update }) {
+function ClassRegistration({
+  school,
+  classes,
+  studentName,
+  setUpdate,
+  update
+}) {
   return (
     <div id="sidebar">
       {classes.map((className) => (
@@ -14,6 +20,7 @@ function ClassRegistration({ school, classes, studentName, setUpdate, update }) 
         studentName={studentName}
         setUpdate={setUpdate}
         update={update}
+        classes={classes}
       />
     </div>
   )
