@@ -1,8 +1,7 @@
-const express = require('express')
+const express = require("express")
 const app = express()
 const port = 4000
-const cors = require('cors')
-
+const cors = require("cors")
 
 const {
   writeSchools,
@@ -13,6 +12,7 @@ const {
   getSchool,
   getClasses,
   getAllClassesAtSchool,
+  getStudentName,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -100,6 +100,7 @@ app.get("/getStudentData/:studentID", (req, res) => {
   Promise.all([
     getClasses(req.params.studentID),
     getSchool(req.params.studentID),
+    getStudentName(req.params.studentID),
   ])
     .then((data) => {
       res.send(data)
@@ -109,7 +110,7 @@ app.get("/getStudentData/:studentID", (req, res) => {
     })
 })
 
-app.get("/getAllClassesAtSchool/:schoolName", (req, res) => {
+app.get("/getAllClassesAtSchool/:schoolName", cors(), (req, res) => {
   getAllClassesAtSchool(req.params.schoolName)
     .then((classes) => {
       res.send(classes)
@@ -118,11 +119,6 @@ app.get("/getAllClassesAtSchool/:schoolName", (req, res) => {
       res.send(e)
     })
 })
-
-
-
-getAllClassesAtSchool
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

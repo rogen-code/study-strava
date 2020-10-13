@@ -76,6 +76,7 @@ module.exports.registerClass = (
           (select school_id from schools WHERE school_name=?)
             AND teacher_id=
           (select teacher_id from Teachers WHERE teacher_name=?)
+            AND class_name=?
         ),
         (
         (select student_id from Students WHERE student_name=?
@@ -83,7 +84,7 @@ module.exports.registerClass = (
           school_id=(select school_id from schools WHERE school_name=?)
         ))
       );`,
-      [schoolName, teacherName, studentName, schoolName],
+      [schoolName, teacherName, className, studentName, schoolName],
       (error, results) => {
         if (error) console.log(error)
         if (error) reject(error)
@@ -110,6 +111,19 @@ module.exports.getClasses = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `select class_name from Classes where class_id IN (select class_id from Classes_Students where student_id=?)`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.getStudentName = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select student_name from Students where student_id=?;`,
       [studentID],
       (error, results) => {
         if (error) reject(error)

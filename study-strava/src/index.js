@@ -11,6 +11,12 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [school, setSchool] = useState("")
   const [classes, setClasses] = useState([])
+  const [studentName, setName] = useState("")
+  const [update, setUpdate] = useState(false)
+
+  const didUpdate = () => {
+    setUpdate(!update)
+  }
 
   useEffect(() => {
     const studentID = window.location.pathname
@@ -21,11 +27,13 @@ function App() {
         setSchool(schoolName)
         const classesNames = res.data[0]
         setClasses(classesNames)
+        const studentName = res.data[2][0].student_name
+        setName(studentName)
       })
       .catch((e) => {
         console.log(e)
       })
-  }, [])
+  }, [update])
 
   return (
     <div>
@@ -37,7 +45,12 @@ function App() {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <ClassRegistration school={school} classes={classes} />
+        <ClassRegistration
+          school={school}
+          classes={classes}
+          studentName={studentName}
+          setUpdate={didUpdate}
+        />
       </div>
     </div>
   )

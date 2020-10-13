@@ -3,7 +3,7 @@ import ClassRegistrationModal from "./ClassRegistrationModal"
 
 import axios from 'axios'
 
-function SchoolButton({ schoolName }) {
+function SchoolButton({ schoolName, studentName, setUpdate }) {
   const [clicked, setClicked] = useState(false)
   const [possibleClasses, setPossibleClasses] = useState([])
 
@@ -12,14 +12,16 @@ function SchoolButton({ schoolName }) {
   }
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/getAllClassesAtSchool/${schoolName}`)
-      .then((res) => {
-        setPossibleClasses(res.data)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+    if (schoolName) {
+      axios
+        .get(`http://localhost:4000/getAllClassesAtSchool/${schoolName}`)
+        .then((res) => {
+          setPossibleClasses(res.data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
   }, [schoolName])
 
   return (
@@ -30,9 +32,16 @@ function SchoolButton({ schoolName }) {
         onKeyDown={() => handleClick()}
         schoolName="schoolName"
       >
-        {schoolName}
+        Add Classes
       </button>
-      {clicked && <ClassRegistrationModal possibleClasses={possibleClasses} />}
+      {clicked && (
+        <ClassRegistrationModal
+          possibleClasses={possibleClasses}
+          studentName={studentName}
+          schoolName={schoolName}
+          setUpdate={setUpdate}
+        />
+      )}
     </>
   )
 }
