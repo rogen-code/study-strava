@@ -50,6 +50,7 @@ function App() {
           classes={classes}
           studentName={studentName}
           setUpdate={didUpdate}
+          update={update}
         />
       </div>
     </div>

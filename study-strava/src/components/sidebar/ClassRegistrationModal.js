@@ -7,7 +7,8 @@ function ClassRegistrationModal({
   possibleClasses,
   studentName,
   schoolName,
-  setUpdate
+  setUpdate,
+  update
 }) {
   const [register, setRegister] = useState([])
 
@@ -66,6 +67,8 @@ function ClassRegistrationModal({
           className={classInfo.class_name}
           teacherName={classInfo.teacher_name}
           handleClick={handleClick}
+          register={register}
+          update={update}
         />
       ))}
       <button type="submit" onClick={handleSubmit}>

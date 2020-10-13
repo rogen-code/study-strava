@@ -3,7 +3,7 @@ import ClassRegistrationModal from "./ClassRegistrationModal"
 
 import axios from 'axios'
 
-function SchoolButton({ schoolName, studentName, setUpdate }) {
+function SchoolButton({ schoolName, studentName, setUpdate, update }) {
   const [clicked, setClicked] = useState(false)
   const [possibleClasses, setPossibleClasses] = useState([])
 
@@ -40,6 +40,7 @@ function SchoolButton({ schoolName, studentName, setUpdate }) {
           studentName={studentName}
           schoolName={schoolName}
           setUpdate={setUpdate}
+          update={update}
         />
       )}
     </>

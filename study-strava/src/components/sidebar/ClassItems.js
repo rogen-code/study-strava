@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import "../styles/sidebar.css"
 
 function ClassItems({
@@ -6,7 +6,9 @@ function ClassItems({
   schoolName,
   className,
   teacherName,
-  handleClick
+  handleClick,
+  register,
+  update
 }) {
 
   const [clicked, setClicked] = useState(false)
@@ -15,6 +17,10 @@ function ClassItems({
     handleClick([studentName, schoolName, className, teacherName])
     setClicked(!clicked)
   }
+
+  useEffect(() => {
+    setClicked(false)
+  }, [update])
 
   return (
     <div
