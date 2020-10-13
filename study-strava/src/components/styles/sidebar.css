@@ -1,0 +1,9 @@
+.clicked {
+  border: 1px solid black;
+  outline: none;
+}
+
+.unclicked:focus {
+  outline: 0;
+  outline: none;
+}

@@ -1,7 +1,14 @@
 import React, { useState } from "react"
 import axios from 'axios'
 
-function ClassRegistrationModal({ possibleClasses, studentName, schoolName, setUpdate }) {
+import ClassItems from "./ClassItems"
+
+function ClassRegistrationModal({
+  possibleClasses,
+  studentName,
+  schoolName,
+  setUpdate
+}) {
   const [register, setRegister] = useState([])
 
   const handleClick = (val) => {
@@ -53,28 +60,13 @@ function ClassRegistrationModal({ possibleClasses, studentName, schoolName, setU
   return (
     <div>
       {possibleClasses.map((classInfo) => (
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={() =>
-            handleClick([
-              studentName,
-              schoolName,
-              classInfo.class_name,
-              classInfo.teacher_name,
-            ])
-          }
-          onClick={() =>
-            handleClick([
-              studentName,
-              schoolName,
-              classInfo.class_name,
-              classInfo.teacher_name,
-            ])
-          }
-        >
-          {classInfo.class_name} taught by {classInfo.teacher_name}
-        </div>
+        <ClassItems
+          studentName={studentName}
+          schoolName={schoolName}
+          className={classInfo.class_name}
+          teacherName={classInfo.teacher_name}
+          handleClick={handleClick}
+        />
       ))}
       <button type="submit" onClick={handleSubmit}>
         Submit Registration
