@@ -23,14 +23,16 @@ function ClassItems({
   }, [update])
 
   return (
-    <div
-      className={`${clicked ? "clicked" : "unclicked"}`}
-      role="button"
-      tabIndex={0}
-      onKeyDown={() => clickHandle()}
-      onClick={() => clickHandle()}
-    >
-    {className} taught by {teacherName}
+    <div>
+      <div
+        className={`${clicked ? "clicked" : "unclicked"}`}
+        role="button"
+        tabIndex={0}
+        onKeyDown={() => clickHandle()}
+        onClick={() => clickHandle()}
+      >
+        {className} taught by {teacherName}
+      </div>
     </div>
 
   )

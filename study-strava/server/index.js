@@ -77,7 +77,8 @@ app.post("/registerClass", (req, res) => {
     })
 })
 
-app.delete("/deleteClass", (req, res) => {
+app.put("/deleteClass", (req, res) => {
+  console.log(req.body.studentName)
   deleteClass(
     req.body.studentName,
     req.body.schoolName,
@@ -85,9 +86,12 @@ app.delete("/deleteClass", (req, res) => {
     req.body.teacherName
   )
     .then((result) => {
+      console.log(result)
       res.send(result)
     })
+
     .catch((err) => {
+      console.log('here')
       res.send(err)
     })
 })

@@ -100,21 +100,35 @@ module.exports.deleteClass = (
   className,
   teacherName
 ) => {
+  console.log(`DELETE FROM Classes_Students where class_id=
+  (select class_id from classes where school_id=
+    (select school_id from schools WHERE school_name=${schoolName})
+      AND teacher_id=
+    (select teacher_id from Teachers WHERE teacher_name=${teacherName})
+      AND class_name=${className}
+  ) AND
+  (
+  (select student_id from Students WHERE student_name=${studentName}
+    AND
+    school_id=(select school_id from schools WHERE school_name=${schoolName})
+  ))
+;`)
+
   return new Promise((resolve, reject) => {
     pool.query(
-      `DELETE FROM Classes_Students (class_id, student_id) VALUES (
+      `DELETE FROM Classes_Students where class_id=
         (select class_id from classes where school_id=
           (select school_id from schools WHERE school_name=?)
             AND teacher_id=
           (select teacher_id from Teachers WHERE teacher_name=?)
             AND class_name=?
-        ),
+        ) AND
         (
         (select student_id from Students WHERE student_name=?
           AND
           school_id=(select school_id from schools WHERE school_name=?)
         ))
-      );`,
+      ;`,
       [schoolName, teacherName, className, studentName, schoolName],
       (error, results) => {
         if (error) console.log(error)
@@ -141,7 +155,7 @@ module.exports.getSchool = (studentID) => {
 module.exports.getClasses = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select class_name from Classes where class_id IN (select class_id from Classes_Students where student_id=?)`,
+      `select class_name, teachers.teacher_name from Classes join Teachers on Classes.teacher_id=teachers.teacher_id where class_id IN (select class_id from Classes_Students where student_id=?)`,
       [studentID],
       (error, results) => {
         if (error) reject(error)

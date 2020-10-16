@@ -14,7 +14,14 @@ function ClassRegistration({
   return (
     <div id="sidebar">
       {classes.map((className) => (
-        <ClassButton className={className.class_name} />
+        <ClassButton
+          className={className.class_name}
+          teacherName={className.teacher_name}
+          school={school}
+          studentName={studentName}
+          setUpdate={setUpdate}
+          update={update}
+        />
       ))}
       <SchoolButton
         schoolName={school}
