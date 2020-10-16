@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react"
 import ReactDOM from "react-dom"
 import axios from 'axios';
+import "./components/styles/main.css"
 
 import Calendar from "./components/calendar"
 import Navbar from "./components/navbar"
 import ClassRegistration from "./components/sidebar/ClassRegistration"
+
 
 function App() {
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -38,7 +40,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <div>
+      <div id="main">
         <Calendar
           currentDate={currentDate}
           setCurrentDate={setCurrentDate}

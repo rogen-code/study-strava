@@ -94,6 +94,37 @@ module.exports.registerClass = (
   })
 }
 
+module.exports.deleteClass = (
+  studentName,
+  schoolName,
+  className,
+  teacherName
+) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM Classes_Students (class_id, student_id) VALUES (
+        (select class_id from classes where school_id=
+          (select school_id from schools WHERE school_name=?)
+            AND teacher_id=
+          (select teacher_id from Teachers WHERE teacher_name=?)
+            AND class_name=?
+        ),
+        (
+        (select student_id from Students WHERE student_name=?
+          AND
+          school_id=(select school_id from schools WHERE school_name=?)
+        ))
+      );`,
+      [schoolName, teacherName, className, studentName, schoolName],
+      (error, results) => {
+        if (error) console.log(error)
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
 module.exports.getSchool = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(

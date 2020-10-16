@@ -1,4 +1,5 @@
 import React from "react"
+import "../styles/sidebar.css"
 
 import ClassButton from "./classButton"
 import SchoolButton from "./SchoolButton"

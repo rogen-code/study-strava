@@ -3,7 +3,13 @@ import ClassRegistrationModal from "./ClassRegistrationModal"
 
 import axios from 'axios'
 
-function SchoolButton({ schoolName, studentName, setUpdate, update, classes }) {
+function SchoolButton({
+  schoolName,
+  studentName,
+  setUpdate,
+  update,
+  classes
+}) {
   const [clicked, setClicked] = useState(false)
   const [possibleClasses, setPossibleClasses] = useState([])
 
@@ -17,15 +23,12 @@ function SchoolButton({ schoolName, studentName, setUpdate, update, classes }) {
         .get(`http://localhost:4000/getAllClassesAtSchool/${schoolName}`)
         .then((res) => {
           const cache = {};
-
           classes.forEach((c) => {
             cache[c.class_name] = true
           })
-
           const notEnrolled = res.data.filter((c) => {
             return cache[c.class_name] === undefined
           })
-
           setPossibleClasses(notEnrolled)
         })
         .catch((e) => {

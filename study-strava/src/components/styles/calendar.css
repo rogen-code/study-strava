@@ -55,11 +55,10 @@ max-width: 100%;
 .calendar {
 display: block;
 position: relative;
-width: 50%;
+width: 60vw;
 background: white;
 border: 1px solid lightgray;
 height: auto;
-margin:0 auto;
 }
 .calendar .header {
 text-transform: uppercase;

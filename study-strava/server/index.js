@@ -13,6 +13,7 @@ const {
   getClasses,
   getAllClassesAtSchool,
   getStudentName,
+  deleteClass,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -63,6 +64,21 @@ app.post("/writeStudent", (req, res) => {
 
 app.post("/registerClass", (req, res) => {
   registerClass(
+    req.body.studentName,
+    req.body.schoolName,
+    req.body.className,
+    req.body.teacherName
+  )
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+})
+
+app.delete("/deleteClass", (req, res) => {
+  deleteClass(
     req.body.studentName,
     req.body.schoolName,
     req.body.className,
