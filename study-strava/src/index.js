@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import axios from 'axios';
 import "./components/styles/main.css"
 
-import Calendar from "./components/calendar"
+import Calendar from "./components/calendar/calendar.js"
 import Navbar from "./components/navbar"
 import ClassRegistration from "./components/sidebar/ClassRegistration"
 
@@ -15,6 +15,7 @@ function App() {
   const [classes, setClasses] = useState([])
   const [studentName, setName] = useState("")
   const [update, setUpdate] = useState(false)
+  const [tests, setTests] = useState([])
 
   const didUpdate = () => {
     setUpdate(!update)
@@ -29,8 +30,10 @@ function App() {
         setSchool(schoolName)
         const classesNames = res.data[0]
         setClasses(classesNames)
-        const studentName = res.data[2][0].student_name
-        setName(studentName)
+        const stuName = res.data[2][0].student_name
+        setName(stuName)
+        const classTests = res.data[3]
+        setTests(classTests)
       })
       .catch((e) => {
         console.log(e)
@@ -46,6 +49,7 @@ function App() {
           setCurrentDate={setCurrentDate}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          tests={tests}
         />
         <ClassRegistration
           school={school}

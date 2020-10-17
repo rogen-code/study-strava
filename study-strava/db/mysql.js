@@ -205,8 +205,16 @@ module.exports.getAllClassesAtSchool = (schoolName) => {
   })
 }
 
-
-
-
-
+module.exports.getAllTestsForStudent = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select test_id, test_name, test_date, test_description, classes.class_name, teachers.teacher_name from Tests join Classes on tests.class_id=classes.class_id join Classes_Students on tests.class_id=Classes_Students.class_id join Teachers on Classes.teacher_id=Teachers.teacher_id where Classes_Students.class_id in (select class_id from Classes_Students where student_id=?) ;`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
 

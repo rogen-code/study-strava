@@ -64,7 +64,7 @@ for (let k = 0; k < schoolNames.length; k += 1) {
       classes[schoolName].push([teacherName, className])
       for (let m = 0; m < 10; m += 1) {
         const dateOfTest = formatDate(startDate, endDate)
-        const testDescription = faker.lorem.text(max_nb_chars = 150)
+        const testDescription = faker.lorem.text(max_nb_chars = 50)
         const testName = `${className} Test`
         writeTest(testName, dateOfTest, testDescription, className, teacherName, schoolName)
       }

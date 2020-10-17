@@ -1,5 +1,5 @@
 import React from "react"
-import "./styles/calendar.css"
+import "../styles/calendar.css"
 
 import addMonths from "date-fns/addMonths"
 import subMonths from "date-fns/subMonths"
@@ -11,12 +11,26 @@ import endOfWeek from "date-fns/endOfWeek"
 import addDays from "date-fns/addDays"
 import isSameMonth from "date-fns/isSameMonth"
 import isSameDay from "date-fns/isSameDay"
+import getDate from "date-fns/getDate"
+import getMonth from "date-fns/getMonth"
+import getYear from "date-fns/getYear"
+import isDate from "date-fns/isDate"
+import parseISO from "date-fns/parse"
+import toDate from "date-fns/toDate"
+import parse from "date-fns/parse"
+
+import TestButton from "./TestButton"
+
+
+
+
 
 const Calendar = ({
   currentDate,
   setCurrentDate,
   selectedDate,
-  setSelectedDate
+  setSelectedDate,
+  tests
 }) => {
   const nextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1))
@@ -73,6 +87,20 @@ const Calendar = ({
     return <div className="days row">{days}</div>;
   }
 
+  const testDates = {}
+  const testFormat = "yyyy-MM-dd"
+  if (tests[0]) {
+    tests.forEach((test) => {
+      let formatDay = test.test_date.split('T')[0]
+      testDates[formatDay]
+        ? testDates[formatDay].push(test)
+        : (testDates[formatDay] = [test])
+      }
+    )
+  }
+
+  console.log(testDates)
+
   const cells = () => {
     const monthStart = startOfMonth(currentDate)
     const monthEnd = endOfMonth(monthStart)
@@ -86,6 +114,15 @@ const Calendar = ({
     while (day <= endDate) {
       for (let i = 0; i < 7; i += 1) {
         formattedDate = format(day, dateFormat)
+
+        let result = '';
+
+
+        // if (tests[0] && testDates[format(day, testFormat)]) {
+        //   result += <h1>Hello</h1>'
+        //   console.log('hello from one time')
+        // }
+
         const cloneDay = day
         days.push(
           <div
@@ -97,6 +134,11 @@ const Calendar = ({
           >
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
+            {testDates[format(day, testFormat)] &&
+              testDates[format(day, testFormat)].map(d =>
+                <TestButton day={d} />
+              )
+            }
           </div>
         )
         day = addDays(day, 1)
