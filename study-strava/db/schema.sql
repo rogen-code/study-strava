@@ -80,7 +80,9 @@ DROP TABLE IF EXISTS Classes_Students;
 
 CREATE TABLE Classes_Students (
   class_id INTEGER NOT NULL,
-  student_id INTEGER NOT NULL
+  student_id INTEGER NOT NULL,
+  PRIMARY KEY (class_id, student_id)
+
 );
 
 -- ---
@@ -91,7 +93,13 @@ CREATE TABLE Classes_Students (
 DROP TABLE IF EXISTS Tests;
 
 CREATE TABLE Tests (
-  test_id INTEGER NOT NULL,
-  test_name VARCHAR(255) NULL DEFAULT NULL,
-  test_date VARCHAR(123) NULL DEFAULT NULL
+  test_id INTEGER AUTO_INCREMENT,
+  test_name VARCHAR(100) NOT NULL,
+  test_date DATE NOT NULL,
+  test_description VARCHAR(255) DEFAULT NULL,
+  school_id INTEGER,
+  class_id INTEGER,
+  FOREIGN KEY (school_id) references Schools(school_id),
+  FOREIGN KEY (class_id) references Classes(class_id),
+  PRIMARY KEY (test_id, class_id)
 );

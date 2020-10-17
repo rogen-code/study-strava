@@ -6,8 +6,10 @@ const {
   writeTeachers,
   writeClass,
   writeStudent,
-  registerClass
+  writeTest
 } = require("./db/mysql.js")
+
+const { formatDate, startDate, endDate } = require("./timeSeed.js")
 
 function getRandom(n) {
   return Math.floor(Math.random() * n + 1)
@@ -38,8 +40,6 @@ for (let k = 0; k < schoolNames.length; k += 1) {
   }
 }
 
-console.log(teachers)
-
 const possibleClasses = [
   "English",
   "Algebra",
@@ -62,6 +62,12 @@ for (let k = 0; k < schoolNames.length; k += 1) {
       const teacherName = teachers[schoolName][getRandom(teachers[schoolName].length-1)]
       writeClass(className, teacherName, schoolName)
       classes[schoolName].push([teacherName, className])
+      for (let m = 0; m < 10; m += 1) {
+        const dateOfTest = formatDate(startDate, endDate)
+        const testDescription = faker.lorem.text(max_nb_chars = 150)
+        const testName = `${className} Test`
+        writeTest(testName, dateOfTest, testDescription, className, teacherName, schoolName)
+      }
     }
   }
 }

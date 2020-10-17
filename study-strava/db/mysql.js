@@ -63,6 +63,20 @@ module.exports.writeStudent = (studentName, schoolName) => {
   })
 }
 
+module.exports.writeTest = (testName, testDate, testDescription, className, teacherName, schoolName) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Tests (test_name, test_date, test_description, school_id, class_id) VALUES (?, ?, ?, (select school_id from schools where school_name=?),(select class_id from classes where class_name=? and teacher_id in (select teacher_id from teachers where teacher_name=?) and school_id=(select school_id from schools where school_name=?)));`,
+      [testName, testDate, testDescription, schoolName, className, teacherName, schoolName],
+      (error, results) => {
+        if (error) console.log(error)
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
 module.exports.registerClass = (
   studentName,
   schoolName,
