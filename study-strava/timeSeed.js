@@ -15,3 +15,4 @@ module.exports.formatDate = (date) => {
 module.exports.startDate = "08/01/2020"
 
 module.exports.endDate = "06/01/2021"
+

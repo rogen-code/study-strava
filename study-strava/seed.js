@@ -60,14 +60,18 @@ for (let k = 0; k < schoolNames.length; k += 1) {
     const className = possibleClasses[j]
     for (let l = 0; l < 3; l += 1) {
       const teacherName = teachers[schoolName][getRandom(teachers[schoolName].length-1)]
-      writeClass(className, teacherName, schoolName)
-      classes[schoolName].push([teacherName, className])
-      for (let m = 0; m < 10; m += 1) {
-        const dateOfTest = formatDate(startDate, endDate)
-        const testDescription = faker.lorem.text(max_nb_chars = 50)
-        const testName = `${className} Test`
-        writeTest(testName, dateOfTest, testDescription, className, teacherName, schoolName)
-      }
+      const periodNumber = l;
+      writeClass(className, teacherName, schoolName, periodNumber)
+      .then((e) => {
+        classes[schoolName].push([teacherName, className])
+        for (let m = 0; m < 10; m += 1) {
+          const testDescription = 'Sample Test Description for this test'
+          const testName = `${className} Test`
+          const dateOfTest = formatDate(faker.date.between(startDate, endDate))
+          writeTest(testName, dateOfTest, testDescription, className, teacherName, schoolName, periodNumber)
+          .catch((e) => console.log(testName, dateOfTest, testDescription, className, teacherName, schoolName, periodNumber))
+        }
+      })
     }
   }
 }

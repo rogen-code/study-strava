@@ -49,6 +49,7 @@ CREATE TABLE Classes (
   class_id INTEGER NOT NULL AUTO_INCREMENT,
   class_name VARCHAR(255) NULL DEFAULT NULL,
   teacher_id int,
+  period_number int,
   school_id int,
   FOREIGN KEY (teacher_id) references Teachers(teacher_id),
   FOREIGN KEY (school_id) references Schools(school_id),

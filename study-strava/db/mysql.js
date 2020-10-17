@@ -37,11 +37,11 @@ module.exports.writeTeachers = (teacherName, schoolName) => {
   })
 }
 
-module.exports.writeClass = (className, teacherName, schoolName) => {
+module.exports.writeClass = (className, teacherName, schoolName, periodNum) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `INSERT INTO Classes (class_name, teacher_id, school_id) VALUES (?, (select teacher_id from Teachers where teacher_name=?), (select school_id from Schools where school_name=?));`,
-      [className, teacherName, schoolName],
+      `INSERT INTO Classes (class_name, teacher_id, school_id, period_number) VALUES (?, (select teacher_id from Teachers where teacher_name=?), (select school_id from Schools where school_name=?), ?);`,
+      [className, teacherName, schoolName, periodNum],
       (error, results) => {
         if (error) reject(error)
         resolve(results)
@@ -63,11 +63,12 @@ module.exports.writeStudent = (studentName, schoolName) => {
   })
 }
 
-module.exports.writeTest = (testName, testDate, testDescription, className, teacherName, schoolName) => {
+module.exports.writeTest = (testName, testDate, testDescription, className, teacherName, schoolName, periodNumber) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `INSERT INTO Tests (test_name, test_date, test_description, school_id, class_id) VALUES (?, ?, ?, (select school_id from schools where school_name=?),(select class_id from classes where class_name=? and teacher_id in (select teacher_id from teachers where teacher_name=?) and school_id=(select school_id from schools where school_name=?)));`,
-      [testName, testDate, testDescription, schoolName, className, teacherName, schoolName],
+      `INSERT INTO Tests (test_name, test_date, test_description, school_id, class_id) VALUES (?, ?, ?, (select school_id from schools where school_name=?),
+      (select class_id from classes where class_name=? and teacher_id in (select teacher_id from teachers where teacher_name=? and school_id=(select school_id from schools where school_name=?)) and period_number=?));`,
+      [testName, testDate, testDescription, schoolName, className, teacherName, schoolName, periodNumber],
       (error, results) => {
         if (error) console.log(error)
         if (error) reject(error)
