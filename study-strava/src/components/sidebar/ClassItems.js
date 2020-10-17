@@ -6,6 +6,7 @@ function ClassItems({
   schoolName,
   className,
   teacherName,
+  periodNumber,
   handleClick,
   register,
   update
@@ -14,7 +15,7 @@ function ClassItems({
   const [clicked, setClicked] = useState(false)
 
   const clickHandle = () => {
-    handleClick([studentName, schoolName, className, teacherName])
+    handleClick([studentName, schoolName, className, teacherName, periodNumber])
     setClicked(!clicked)
   }
 

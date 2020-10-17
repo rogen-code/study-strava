@@ -6,7 +6,8 @@ const {
   writeTeachers,
   writeClass,
   writeStudent,
-  writeTest
+  writeTest,
+  registerClass,
 } = require("./db/mysql.js")
 
 const { formatDate, startDate, endDate } = require("./timeSeed.js")
@@ -72,29 +73,49 @@ for (let k = 0; k < schoolNames.length; k += 1) {
           .catch((e) => console.log(testName, dateOfTest, testDescription, className, teacherName, schoolName, periodNumber))
         }
       })
+      .then(() => {
+        for (let z = 0; z < 31; z += 1) {
+          const studentName = faker.name.findName()
+          writeStudent(studentName, schoolName)
+          .then(() => {
+            let x = 7;
+            registerClass(studentName, schoolName, className, teacherName, periodNumber)
+            .catch((e) => {
+              console.log(studentName, schoolName, className, teacherName, periodNumber)
+            })
+          })
+        }
+      })
     }
   }
 }
 
-i = 0
+console.log('done')
 
-const students = {}
+// i = 0
 
-while (i < 1000) {
-  const studentName = faker.name.findName()
-  const schoolName = schoolNames[getRandom(schoolNames.length - 1)]
-  if (students[schoolName] === undefined) students[schoolName] = []
-  students[schoolName].push(studentName)
-  writeStudent(studentName, schoolName)
-  i += 1
-}
+// const students = {}
 
+// while (i < 1000) {
+//   const studentName = faker.name.findName()
+//   const schoolName = schoolNames[getRandom(schoolNames.length - 1)]
+//   if (students[schoolName] === undefined) students[schoolName] = []
+//   students[schoolName].push(studentName)
+//   writeStudent(studentName, schoolName)
+//   .then(() => {
+//     const teacherName = classes[schoolName][getRandom(classes[schoolName].length - 1)][0]
+//     const className = classes[schoolName][getRandom(classes[schoolName].length - 1)][1]
+//     registerClass(studentName, schoolName, className, teacherName)
+//       .catch((e) => {
+//         console.log(studentName, schoolName, className, teacherName)
+//       })
+//   })
+//   i += 1
+// }
 
 // for (let key in students) {
 //   for (let z = 0; z < students[key].length; z += 1) {
 //     const studentName = students[key][z]
-//     const teacherName = classes[key][getRandom(classes[key].length - 1)][0]
-//     const className = classes[key][getRandom(classes[key].length - 1)][1]
 //     registerClass(studentName, key, className, teacherName)
 //   }
 // }

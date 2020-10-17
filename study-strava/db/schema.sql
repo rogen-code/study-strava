@@ -104,3 +104,25 @@ CREATE TABLE Tests (
   FOREIGN KEY (class_id) references Classes(class_id),
   PRIMARY KEY (test_id, class_id)
 );
+
+-- ---
+-- Table 'Activities'
+--
+-- ---
+
+DROP TABLE IF EXISTS Activities;
+
+CREATE TABLE Activities (
+  activity_id INTEGER AUTO_INCREMENT,
+  activity_name VARCHAR(100) NOT NULL,
+  activity_date DATE NOT NULL,
+  activity_description VARCHAR(255) DEFAULT NULL,
+  likes INTEGER DEFAULT 0,
+  student_id INTEGER,
+  school_id INTEGER,
+  class_id INTEGER,
+  FOREIGN KEY (student_id) references Students(student_id),
+  FOREIGN KEY (school_id) references Schools(school_id),
+  FOREIGN KEY (class_id) references Classes(class_id),
+  PRIMARY KEY (activity_id)
+);

@@ -47,13 +47,14 @@ function ClassRegistrationModal({
           schoolName: value[1],
           className: value[2],
           teacherName: value[3],
+          periodNumber: value[4],
         })
         .then((res) => {
           setRegister([])
           setUpdate()
         })
         .catch((e) => {
-          console.log(e)
+          var x =7;
         })
     })
   }
@@ -66,6 +67,7 @@ function ClassRegistrationModal({
           schoolName={schoolName}
           className={classInfo.class_name}
           teacherName={classInfo.teacher_name}
+          periodNumber={classInfo.period_number}
           handleClick={handleClick}
           register={register}
           update={update}

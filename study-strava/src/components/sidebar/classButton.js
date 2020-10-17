@@ -15,13 +15,14 @@ function ClassButton({
     setClicked(!clicked)
   }
 
-  const handleDelete = (student, schoolName, classN, teacher) => {
+  const handleDelete = (student, schoolName, classN, teacher, periodNumber) => {
     axios
       .put("http://localhost:4000/deleteClass", {
         studentName: student,
         schoolName,
         className: classN,
         teacherName: teacher,
+        periodNumber,
       })
       .then(() => {
         setUpdate()

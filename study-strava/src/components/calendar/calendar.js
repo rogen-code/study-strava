@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import "../styles/calendar.css"
 
 import addMonths from "date-fns/addMonths"
@@ -99,8 +99,6 @@ const Calendar = ({
     )
   }
 
-  console.log(testDates)
-
   const cells = () => {
     const monthStart = startOfMonth(currentDate)
     const monthEnd = endOfMonth(monthStart)
@@ -114,15 +112,6 @@ const Calendar = ({
     while (day <= endDate) {
       for (let i = 0; i < 7; i += 1) {
         formattedDate = format(day, dateFormat)
-
-        let result = '';
-
-
-        // if (tests[0] && testDates[format(day, testFormat)]) {
-        //   result += <h1>Hello</h1>'
-        //   console.log('hello from one time')
-        // }
-
         const cloneDay = day
         days.push(
           <div
@@ -135,10 +124,9 @@ const Calendar = ({
             <span className="number">{formattedDate}</span>
             <span className="bg">{formattedDate}</span>
             {testDates[format(day, testFormat)] &&
-              testDates[format(day, testFormat)].map(d =>
-                <TestButton day={d} />
-              )
-            }
+              testDates[format(day, testFormat)].map((d) => (
+                <TestButton day={d} key={d.test_id} />
+              ))}
           </div>
         )
         day = addDays(day, 1)
