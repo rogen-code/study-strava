@@ -44,7 +44,6 @@ app.post("/writeTeacher", (req, res) => {
 })
 
 app.post("/writeClass", (req, res) => {
-  console.log(req.periodNumber)
   writeClass(req.body.className, req.body.teacherName, req.body.schoolName)
     .then((result) => {
       res.send(result)
@@ -65,7 +64,6 @@ app.post("/writeStudent", (req, res) => {
 })
 
 app.post("/registerClass", (req, res) => {
-  console.log(req.body.periodNumber)
   registerClass(
     req.body.studentName,
     req.body.schoolName,
@@ -95,7 +93,6 @@ app.put("/deleteClass", (req, res) => {
     })
 
     .catch((err) => {
-      console.log('here')
       res.send(err)
     })
 })

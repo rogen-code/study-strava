@@ -54,69 +54,103 @@ const possibleClasses = [
 
 const classes = {}
 
-for (let k = 0; k < schoolNames.length; k += 1) {
-  const schoolName = schoolNames[k]
-  if (classes[schoolName] === undefined) classes[schoolName] = []
-  for (let j = 0; j < possibleClasses.length; j += 1) {
-    const className = possibleClasses[j]
-    for (let l = 0; l < 3; l += 1) {
-      const teacherName = teachers[schoolName][getRandom(teachers[schoolName].length-1)]
-      const periodNumber = l;
-      writeClass(className, teacherName, schoolName, periodNumber)
-      .then((e) => {
-        classes[schoolName].push([teacherName, className])
-        for (let m = 0; m < 10; m += 1) {
-          const testDescription = 'Sample Test Description for this test'
-          const testName = `${className} Test`
-          const dateOfTest = formatDate(faker.date.between(startDate, endDate))
-          writeTest(testName, dateOfTest, testDescription, className, teacherName, schoolName, periodNumber)
-          .catch((e) => console.log(testName, dateOfTest, testDescription, className, teacherName, schoolName, periodNumber))
-        }
-      })
-      .then(() => {
-        for (let z = 0; z < 31; z += 1) {
-          const studentName = faker.name.findName()
-          writeStudent(studentName, schoolName)
-          .then(() => {
-            let x = 7;
-            registerClass(studentName, schoolName, className, teacherName, periodNumber)
-            .catch((e) => {
-              console.log(studentName, schoolName, className, teacherName, periodNumber)
-            })
-          })
-        }
-      })
+const classPromises = []
+
+writeClasses()
+
+Promise.all(classPromises)
+  .then(() => {
+    writeTests()
+  })
+  .then(() => {
+    writeStudents()
+  })
+  .then(() => {
+    registerClasses()
+  })
+  .then(() => {
+    console.log('Done')
+  })
+  .catch((e) => {
+    console.log('error')
+  })
+
+function writeClasses() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    if (classes[schoolName] === undefined) classes[schoolName] = []
+    for (let j = 0; j < possibleClasses.length; j += 1) {
+      const className = possibleClasses[j]
+      for (let l = 0; l < 3; l += 1) {
+        const teacherName = teachers[schoolName][getRandom(teachers[schoolName].length-1)]
+        const periodNumber = l;
+        classes[schoolName].push([className, teacherName, schoolName, periodNumber])
+        classPromises.push(writeClass(className, teacherName, schoolName, periodNumber).catch((e) => {console.log('error writing class')}))
+      }
     }
   }
 }
 
-console.log('done')
+const tests = []
 
-// i = 0
 
-// const students = {}
+function writeTests() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    for (let j = 0; j < classes[schoolName].length; j += 1) {
+      for (let l = 0; l < 10; l++) {
+        const className = classes[schoolName][j][0]
+        const testName = `${className} Test`
+        const teacherName = classes[schoolName][j][1]
+        const testDescription = 'Sample Test Description for this test'
+        const periodNumber = classes[schoolName][j][3]
+        const dateOfTest = formatDate(faker.date.between(startDate, endDate))
+        tests.push(writeTest(testName, dateOfTest, testDescription, className, teacherName, schoolName, periodNumber)
+        .catch((e) => {console.log('error writing tests')}))
+      }
+    }
+  }
+  return Promise.all(tests)
 
-// while (i < 1000) {
-//   const studentName = faker.name.findName()
-//   const schoolName = schoolNames[getRandom(schoolNames.length - 1)]
-//   if (students[schoolName] === undefined) students[schoolName] = []
-//   students[schoolName].push(studentName)
-//   writeStudent(studentName, schoolName)
-//   .then(() => {
-//     const teacherName = classes[schoolName][getRandom(classes[schoolName].length - 1)][0]
-//     const className = classes[schoolName][getRandom(classes[schoolName].length - 1)][1]
-//     registerClass(studentName, schoolName, className, teacherName)
-//       .catch((e) => {
-//         console.log(studentName, schoolName, className, teacherName)
-//       })
-//   })
-//   i += 1
-// }
+}
 
-// for (let key in students) {
-//   for (let z = 0; z < students[key].length; z += 1) {
-//     const studentName = students[key][z]
-//     registerClass(studentName, key, className, teacherName)
-//   }
-// }
-// console.log('registered!')
+const students = []
+const studentAsync = []
+
+function writeStudents() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    if (students[schoolName] === undefined) students[schoolName] = []
+    for (let j = 0; j < 150; j++) {
+      const studentName = faker.name.findName()
+      students[schoolName].push(studentName)
+      studentAsync.push(writeStudent(studentName, schoolName))
+    }
+  }
+  return Promise.all(studentAsync)
+}
+
+const classesAsync = []
+
+function registerClasses() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    for (let j = 0; j < students[schoolName].length; j += 1) {
+      const studentName = students[schoolName][j]
+      const registered = { size: 0 }
+      while (registered.size !== 5) {
+        const random = getRandom(23)
+        if (!registered[random]) {
+          registered.size += 1
+          registered[random] = true
+          const className = classes[schoolName][random][0]
+          const teacherName = classes[schoolName][random][1]
+          const periodNumber = classes[schoolName][random][3]
+          classesAsync.push(registerClass(studentName, schoolName, className, teacherName, periodNumber)
+          .catch((e) => {console.log(e)}))
+        }
+      }
+    }
+  }
+  return Promise.all(classesAsync)
+}

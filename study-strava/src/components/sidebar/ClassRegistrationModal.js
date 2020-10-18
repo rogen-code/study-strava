@@ -41,6 +41,7 @@ function ClassRegistrationModal({
 
   const handleSubmit = () => {
     register.forEach((value) => {
+
       axios
         .post("http://localhost:4000/registerClass", {
           studentName: value[0],
