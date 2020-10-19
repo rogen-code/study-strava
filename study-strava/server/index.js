@@ -15,6 +15,7 @@ const {
   getStudentName,
   deleteClass,
   getAllTestsForStudent,
+  writeActivity,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -70,6 +71,23 @@ app.post("/registerClass", (req, res) => {
     req.body.className,
     req.body.teacherName,
     req.body.periodNumber
+  )
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+})
+
+app.post("/registerActivity", (req, res) => {
+  writeActivity(
+    req.body.activityName,
+    req.body.activityDate,
+    req.body.activityDescription,
+    req.body.studentName,
+    req.body.schoolName,
+    req.body.classId
   )
     .then((result) => {
       res.send(result)

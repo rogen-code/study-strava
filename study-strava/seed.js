@@ -130,11 +130,13 @@ function writeStudents() {
   return Promise.all(studentAsync)
 }
 
+const registeredClasses = []
 const classesAsync = []
 
 function registerClasses() {
   for (let k = 0; k < schoolNames.length; k += 1) {
     const schoolName = schoolNames[k]
+    if (registeredClasses[schoolName] === undefined) classes[schoolName] = []
     for (let j = 0; j < students[schoolName].length; j += 1) {
       const studentName = students[schoolName][j]
       const registered = { size: 0 }
@@ -146,6 +148,7 @@ function registerClasses() {
           const className = classes[schoolName][random][0]
           const teacherName = classes[schoolName][random][1]
           const periodNumber = classes[schoolName][random][3]
+          registeredClasses[schoolName].push([studentName, schoolName, className, teacherName, periodNumber])
           classesAsync.push(registerClass(studentName, schoolName, className, teacherName, periodNumber)
           .catch((e) => {console.log(e)}))
         }

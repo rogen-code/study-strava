@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./components/styles/main.css"
 
 import Calendar from "./components/calendar/calendar.js"
-import Navbar from "./components/navbar"
+import Navbar from "./components/navbar/navbar"
 import ClassRegistration from "./components/sidebar/ClassRegistration"
 
 
@@ -42,7 +42,13 @@ function App() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar
+        classes={classes}
+        update={update}
+        setUpdate={didUpdate}
+        studentName={studentName}
+        school={school}
+      />
       <div id="main">
         <Calendar
           currentDate={currentDate}
