@@ -1,0 +1,23 @@
+<div>
+  {{moneyLeft}} left this month
+</div>
+  <div>Transactions</div>
+  <div *ngFor="let transaction of transactions">
+    {{transaction.name}}
+  </div>
+  <form>
+    <Label>What did you buy?</Label>
+    <br />
+    <input type="text" [(ngModel)]="purchasedItem" name="purchasedItem" required>
+    <br />
+    <Label>How much did it cost?</Label>
+    <br />
+    <input type="number" [(ngModel)]="cost" name="cost" required>
+    <br />
+    <select [(ngModel)]="category" name="category" required>
+      <option *ngFor="let category of categories">
+        {{category}}
+      </option>
+    </select>
+    <button type="submit" (click)="onSubmit($event)">Submit</button>
+  </form>
