@@ -8,6 +8,7 @@ const {
   writeStudent,
   writeTest,
   registerClass,
+  writeActivitySeed,
 } = require("./db/mysql.js")
 
 const { formatDate, startDate, endDate } = require("./timeSeed.js")
@@ -23,23 +24,34 @@ const schoolNames = [
   "Charlotte Latin",
 ]
 
-schoolNames.forEach((school) => {
-  writeSchools(school)
-})
+const writeSchoolsPromise = []
 
-let i = 0
+function writeSchoolsAsync() {
+  schoolNames.forEach((school) => {
+    writeSchoolsPromise.push(writeSchools(school))
+  })
+}
 
 const teachers = {}
 
-for (let k = 0; k < schoolNames.length; k += 1) {
-  const schoolName = schoolNames[k]
-  if (teachers[schoolName] === undefined) teachers[schoolName] = []
-  for (let j = 0; j < 30; j += 1) {
-    let name = faker.name.findName()
-    teachers[schoolName].push(name)
-    writeTeachers(name, schoolName)
+const writeTeachersPromise = []
+
+function writeTeachersAsync() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    if (teachers[schoolName] === undefined) teachers[schoolName] = []
+    for (let j = 0; j < 30; j += 1) {
+      const name = faker.name.findName()
+      teachers[schoolName].push(name)
+      writeTeachersPromise.push(writeTeachers(name, schoolName))
+    }
   }
+  return Promise.all(writeTeachersPromise)
 }
+
+
+writeSchoolsAsync()
+
 
 const possibleClasses = [
   "English",
@@ -56,24 +68,6 @@ const classes = {}
 
 const classPromises = []
 
-writeClasses()
-
-Promise.all(classPromises)
-  .then(() => {
-    writeTests()
-  })
-  .then(() => {
-    writeStudents()
-  })
-  .then(() => {
-    registerClasses()
-  })
-  .then(() => {
-    console.log('Done')
-  })
-  .catch((e) => {
-    console.log('error')
-  })
 
 function writeClasses() {
   for (let k = 0; k < schoolNames.length; k += 1) {
@@ -89,10 +83,13 @@ function writeClasses() {
       }
     }
   }
+  console.log(classes)
+  return Promise.all(classPromises)
 }
 
-const tests = []
 
+
+const tests = []
 
 function writeTests() {
   for (let k = 0; k < schoolNames.length; k += 1) {
@@ -130,18 +127,18 @@ function writeStudents() {
   return Promise.all(studentAsync)
 }
 
-const registeredClasses = []
+const registeredClasses = {}
 const classesAsync = []
 
 function registerClasses() {
   for (let k = 0; k < schoolNames.length; k += 1) {
     const schoolName = schoolNames[k]
-    if (registeredClasses[schoolName] === undefined) classes[schoolName] = []
+    if (registeredClasses[schoolName] === undefined) registeredClasses[schoolName] = []
     for (let j = 0; j < students[schoolName].length; j += 1) {
       const studentName = students[schoolName][j]
       const registered = { size: 0 }
       while (registered.size !== 5) {
-        const random = getRandom(23)
+        const random = getRandom(22)
         if (!registered[random]) {
           registered.size += 1
           registered[random] = true
@@ -150,10 +147,65 @@ function registerClasses() {
           const periodNumber = classes[schoolName][random][3]
           registeredClasses[schoolName].push([studentName, schoolName, className, teacherName, periodNumber])
           classesAsync.push(registerClass(studentName, schoolName, className, teacherName, periodNumber)
-          .catch((e) => {console.log(e)}))
+          .catch((e) => {console.log(className, random)}))
         }
       }
     }
   }
   return Promise.all(classesAsync)
 }
+
+const activitiesAsync = []
+
+function writeActivities() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    for (let j = 0; j < registeredClasses[schoolName].length; j += 1) {
+      const studentName = registeredClasses[schoolName][j][0]
+      const className = registeredClasses[schoolName][j][2]
+      const teacherName = registeredClasses[schoolName][j][3]
+      const periodNumber = registeredClasses[schoolName][j][4]
+      const activityDate = formatDate(faker.date.between(startDate, endDate))
+      const activityDescription = 'Hold this spot for a description'
+      const activityName = 'Activity Name'
+
+      activitiesAsync.push(writeActivitySeed(
+          activityName,
+          activityDate,
+          activityDescription,
+          studentName,
+          schoolName,
+          className,
+          periodNumber,
+          teacherName,
+        ).catch((e) => console.log(e)))
+    }
+  }
+  return Promise.all(activitiesAsync)
+}
+
+Promise.all(writeSchoolsPromise)
+  .then(() => {
+    writeTeachersAsync()
+  })
+  .then(() => {
+    writeClasses()
+  })
+  .then(() => {
+    writeTests()
+  })
+  .then(() => {
+    writeStudents()
+  })
+  .then(() => {
+    registerClasses()
+  })
+  .then(() => {
+    writeActivities()
+  })
+  .then(() => {
+    console.log('Done')
+  })
+  .catch((e) => {
+    console.log(e)
+  })

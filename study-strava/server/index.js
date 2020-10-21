@@ -16,6 +16,7 @@ const {
   deleteClass,
   getAllTestsForStudent,
   writeActivity,
+  getActivities,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -141,12 +142,14 @@ app.get("/getStudentData/:studentID", (req, res) => {
     getSchool(req.params.studentID),
     getStudentName(req.params.studentID),
     getAllTestsForStudent(req.params.studentID),
+    getActivities(req.params.studentID),
   ])
     .then((data) => {
       res.send(data)
     })
     .catch((e) => {
-      res.send(e)
+      console.log(e)
+      res.status(400).send(e)
     })
 })
 

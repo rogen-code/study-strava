@@ -16,6 +16,7 @@ function App() {
   const [studentName, setName] = useState("")
   const [update, setUpdate] = useState(false)
   const [tests, setTests] = useState([])
+  const [userActivies, setUserActivites] = useState([])
 
   const didUpdate = () => {
     setUpdate(!update)
@@ -34,6 +35,8 @@ function App() {
         setName(stuName)
         const classTests = res.data[3]
         setTests(classTests)
+        const userActivities = res.data[4]
+        setUserActivites(userActivities)
       })
       .catch((e) => {
         console.log(e)

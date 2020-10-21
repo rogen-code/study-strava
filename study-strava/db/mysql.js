@@ -92,11 +92,11 @@ module.exports.writeActivity = (activityName, activityDate, activityDescription,
   })
 }
 
-module.exports.writeActivitySeed = (activityName, activityDate, activityDescription, studentName, schoolName, className, periodNumber) => {
+module.exports.writeActivitySeed = (activityName, activityDate, activityDescription, studentName, schoolName, className, periodNumber, teacherName) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `INSERT INTO Activities (activity_name, activity_date, activity_description, student_id, school_id, class_id) VALUES (?, ?, ?, (select student_id from students where student_name=?), (select school_id from students where school_name=?), (select class_id from classes where class_name=? and teacher_id in (select teacher_id from teachers where teacher_name=? and school_id=(select school_id from schools where school_name=?)) and period_number=?))`,
-      [studentName, schoolName, className, teacherName, schoolName, periodNumber],
+      `INSERT INTO Activities (activity_name, activity_date, activity_description, student_id, school_id, class_id) VALUES (?, ?, ?, (select student_id from students where student_name=?), (select school_id from schools where school_name=?), (select class_id from classes where class_name=? and teacher_id in (select teacher_id from teachers where teacher_name=? and school_id=(select school_id from schools where school_name=?)) and period_number=?))`,
+      [activityName, activityDate, activityDescription,studentName, schoolName, className, teacherName, schoolName, periodNumber],
       (error, results) => {
         if (error) console.log(error)
         if (error) reject(error)
@@ -186,6 +186,19 @@ module.exports.getClasses = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `select class_name, class_id, period_number, teachers.teacher_name from Classes join Teachers on Classes.teacher_id=teachers.teacher_id where class_id IN (select class_id from Classes_Students where student_id=?)`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.getActivities = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from Activites where student_id=?`,
       [studentID],
       (error, results) => {
         if (error) reject(error)
