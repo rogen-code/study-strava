@@ -17,6 +17,7 @@ function App() {
   const [update, setUpdate] = useState(false)
   const [tests, setTests] = useState([])
   const [userActivities, setUserActivites] = useState([])
+  const [activeTab, setActiveTab] = useState('Calendar')
 
   const didUpdate = () => {
     setUpdate(!update)
@@ -51,6 +52,7 @@ function App() {
         setUpdate={didUpdate}
         studentName={studentName}
         school={school}
+        setActiveTab={setActiveTab}
       />
       <div id="main">
         <Calendar
@@ -60,6 +62,7 @@ function App() {
           setSelectedDate={setSelectedDate}
           tests={tests}
           userActivities={userActivities}
+          activeTab={activeTab}
         />
         <ClassRegistration
           school={school}

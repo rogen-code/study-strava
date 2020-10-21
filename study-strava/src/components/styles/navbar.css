@@ -1,14 +1,19 @@
 * {
   margin: 0;
 }
+
+
 .navbar {
   display: flex;
   width: 100%;
   flex-direction: row;
   height: 75px;
-  background-color: red;
+  background-color: #fff;
   padding-top: 1em;
   font-size: 125%;
+  overflow: visible;
+  z-index: 200;
+  position: fixed;
 }
 
 .navbar #left {
@@ -17,6 +22,7 @@
   margin-left: 3em;
   flex-direction: row;
   justify-content: flex-start;
+  overflow: visible;
 }
 
 .navbar #right {
@@ -29,13 +35,20 @@
 
 .navbar-item {
   width: 130px;
-  margin-left: 0.4em;
-  margin-right: 0.4em;
+  margin-left: 25px;
+  margin-right: 25px;
   cursor: pointer;
+  position: static;
 }
 
 .navbar-select {
-  border: 1px solid black;
+  z-index: 200;
+  height: 50px;
+  overflow: visible;
+  cursor: pointer;
+  position: relative;
+  padding: 8px;
+  top: 8px;
 }
 
 .navbar-select:hover {
@@ -47,4 +60,14 @@
   width: 100vw;
   height: 100vh;
   z-index: 100;
+}
+
+.navbar-selected {
+  border: 1px solid black !important;
+  background-color: #fff;
+  z-index: 200;
+  border-radius: 5px;
+  /* height: 100px !important; */
+  width: auto;
+  position: relative;
 }

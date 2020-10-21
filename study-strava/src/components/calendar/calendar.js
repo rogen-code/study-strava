@@ -33,7 +33,9 @@ const Calendar = ({
   setSelectedDate,
   tests,
   userActivities,
+  activeTab,
 }) => {
+  if (activeTab !== "Calendar") return null;
   const nextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1))
   }
