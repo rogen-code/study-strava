@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import axios from "axios"
 const validator = require('validator');
 
-function RegisterModal({ visible, setVisible, classes, studentName, school }) {
+function RegisterModal({ visible, setVisible, classes, student, school, update, setUpdate }) {
   const [selectedClass, setSelectedClass] = useState(null)
   const ActivityName = useRef()
   const ActivityDescription = useRef()
@@ -15,7 +15,7 @@ function RegisterModal({ visible, setVisible, classes, studentName, school }) {
         activityName: validator.escape(ActivityName.current.value),
         activityDate: SelectedDate.current.value,
         activityDescription: validator.escape(ActivityDescription.current.value),
-        studentName,
+        studentName: student,
         schoolName: school,
         selectedClass,
       })
@@ -24,6 +24,7 @@ function RegisterModal({ visible, setVisible, classes, studentName, school }) {
         ActivityName.current.value = null
         SelectedDate.current.value = null
         setSelectedClass(null)
+        setUpdate(!update)
       })
       .catch((err) => {
         console.log(err)

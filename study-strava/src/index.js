@@ -16,7 +16,7 @@ function App() {
   const [studentName, setName] = useState("")
   const [update, setUpdate] = useState(false)
   const [tests, setTests] = useState([])
-  const [userActivies, setUserActivites] = useState([])
+  const [userActivities, setUserActivites] = useState([])
 
   const didUpdate = () => {
     setUpdate(!update)
@@ -59,6 +59,7 @@ function App() {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           tests={tests}
+          userActivities={userActivities}
         />
         <ClassRegistration
           school={school}

@@ -20,6 +20,7 @@ import toDate from "date-fns/toDate"
 import parse from "date-fns/parse"
 
 import TestButton from "./TestButton"
+import ActivityButton from "./ActivityButton"
 
 
 
@@ -30,7 +31,8 @@ const Calendar = ({
   setCurrentDate,
   selectedDate,
   setSelectedDate,
-  tests
+  tests,
+  userActivities,
 }) => {
   const nextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1))
@@ -91,12 +93,21 @@ const Calendar = ({
   const testFormat = "yyyy-MM-dd"
   if (tests[0]) {
     tests.forEach((test) => {
-      let formatDay = test.test_date.split('T')[0]
+      const formatDay = test.test_date.split("T")[0]
       testDates[formatDay]
         ? testDates[formatDay].push(test)
         : (testDates[formatDay] = [test])
-      }
-    )
+    })
+  }
+
+  const activityDates = {}
+  if (userActivities[0]) {
+    userActivities.forEach((activity) => {
+      const formatDay = activity.activity_date.split("T")[0]
+      activityDates[formatDay]
+        ? activityDates[formatDay].push(activity)
+        : activityDates[formatDay] = [activity]
+    })
   }
 
   const cells = () => {
@@ -126,6 +137,10 @@ const Calendar = ({
             {testDates[format(day, testFormat)] &&
               testDates[format(day, testFormat)].map((d) => (
                 <TestButton day={d} key={d.test_id} />
+              ))}
+            {activityDates[format(day, testFormat)] &&
+              activityDates[format(day, testFormat)].map((d) => (
+                <ActivityButton day={d} key={d.activity_id} />
               ))}
           </div>
         )

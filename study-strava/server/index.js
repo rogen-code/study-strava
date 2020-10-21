@@ -88,13 +88,14 @@ app.post("/registerActivity", (req, res) => {
     req.body.activityDescription,
     req.body.studentName,
     req.body.schoolName,
-    req.body.classId
+    req.body.selectedClass
   )
     .then((result) => {
+      console.log(req.body)
       res.send(result)
     })
     .catch((err) => {
-      res.send(err)
+      console.log(err)
     })
 })
 

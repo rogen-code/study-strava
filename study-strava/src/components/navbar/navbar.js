@@ -3,7 +3,7 @@ import NavbarItem from "./navbar-item";
 import NavbarRegister from "./navbar-register-activity"
 import "../styles/navbar.css";
 
-function Navbar({ classes, studentName, school }) {
+function Navbar({ classes, studentName, school, update, setUpdate }) {
 
   return (
     <div className="navbar">
@@ -30,6 +30,8 @@ function Navbar({ classes, studentName, school }) {
           classes={classes}
           studentName={studentName}
           school={school}
+          update={update}
+          setUpdate={setUpdate}
         />
       </div>
 

@@ -78,14 +78,23 @@ module.exports.writeTest = (testName, testDate, testDescription, className, teac
   })
 }
 
-module.exports.writeActivity = (activityName, activityDate, activityDescription, studentName, schoolName, classID) => {
+module.exports.writeActivity = (
+  activityName,
+  activityDate,
+  activityDescription,
+  studentName,
+  schoolName,
+  classID
+) => {
+  console.log(activityName, activityDate)
   return new Promise((resolve, reject) => {
     pool.query(
-      `INSERT INTO Activities (activity_name, activity_date, activity_description, student_id, school_id, class_id) VALUES (?, ?, ?, (select student_id from students where student_name=?), (select school_id from schools where school_name=?), ?)`,
+      `INSERT INTO activities (activity_name, activity_date, activity_description, student_id, school_id, class_id) VALUES (?, ?, ?, (select student_id from students where student_name=?), (select school_id from schools where school_name=?), ?)`,
       [activityName, activityDate, activityDescription, studentName, schoolName, classID],
       (error, results) => {
         if (error) console.log(error)
         if (error) reject(error)
+        console.log(results)
         resolve(results)
       }
     )
@@ -198,7 +207,7 @@ module.exports.getClasses = (studentID) => {
 module.exports.getActivities = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select * from Activites where student_id=?`,
+      `select * from activities where student_id=?`,
       [studentID],
       (error, results) => {
         if (error) reject(error)
