@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react"
 import ReactDOM from "react-dom"
 import axios from 'axios';
 import "./components/styles/main.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import Calendar from "./components/calendar/calendar.js"
-import Navbar from "./components/navbar/navbar"
+import NavigationBar from "./components/navbar/navbar"
 import ClassRegistration from "./components/sidebar/ClassRegistration"
 
 
@@ -17,7 +19,7 @@ function App() {
   const [update, setUpdate] = useState(false)
   const [tests, setTests] = useState([])
   const [userActivities, setUserActivites] = useState([])
-  const [activeTab, setActiveTab] = useState('Calendar')
+  const [activeTab, setActiveTab] = useState("Calendar")
 
   const didUpdate = () => {
     setUpdate(!update)
@@ -46,7 +48,7 @@ function App() {
 
   return (
     <div>
-      <Navbar
+      <NavigationBar
         classes={classes}
         update={update}
         setUpdate={didUpdate}
@@ -54,24 +56,23 @@ function App() {
         school={school}
         setActiveTab={setActiveTab}
       />
-      <div id="main">
-        <Calendar
-          currentDate={currentDate}
-          setCurrentDate={setCurrentDate}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          tests={tests}
-          userActivities={userActivities}
-          activeTab={activeTab}
-        />
-        <ClassRegistration
+      <Calendar
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        tests={tests}
+        userActivities={userActivities}
+        activeTab={activeTab}
+      />
+     {/* <ClassRegistration
           school={school}
           classes={classes}
           studentName={studentName}
           setUpdate={didUpdate}
           update={update}
-        />
-      </div>
+      /> */}
+      {/* </div> */}
     </div>
   )
 }

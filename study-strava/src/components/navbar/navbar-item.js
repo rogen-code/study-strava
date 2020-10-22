@@ -9,6 +9,7 @@ function NavbarItem({ txt, dropdown, setActiveTab, height }) {
 
   function handleClick(name) {
     setActiveTab(name)
+    handleHover()
   }
 
   return (
@@ -18,7 +19,12 @@ function NavbarItem({ txt, dropdown, setActiveTab, height }) {
       className={visible ? "navbar-item navbar-selected" : "navbar-item"}
       style={{height: visible && `${height}px`}}
     >
-      <div>{txt}</div>
+      <span
+        className={visible ? "navbar-selector navbar-selected-top": "navbar-selected-top"}
+        onClick={() => handleClick(txt)}
+      >
+        {txt}
+      </span>
       {visible &&
         dropdown.map((item, i) => (
           <div className="navbar-select" key={i} onClick={() => handleClick(item)}>

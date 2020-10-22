@@ -10,8 +10,8 @@ function NavbarRegister({ classes, studentName, school, update, setUpdate }) {
 
   return (
     <>
-      <div className="navbar-item" onClick={handeClick}>
-        +
+      <div onClick={handeClick}>
+        <span className="navbar-item modal-push">+</span>
       </div>
       <RegisterModal
         visible={visible}
