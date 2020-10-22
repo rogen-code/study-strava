@@ -1,6 +1,11 @@
 import React, { useState, useRef } from 'react'
 import axios from "axios"
+import { Modal, Button, Form } from 'react-bootstrap';
+
 const validator = require('validator');
+
+
+
 
 function RegisterModal({ visible, setVisible, classes, student, school, update, setUpdate }) {
   const [selectedClass, setSelectedClass] = useState(null)
@@ -24,6 +29,7 @@ function RegisterModal({ visible, setVisible, classes, student, school, update, 
         ActivityName.current.value = null
         SelectedDate.current.value = null
         setSelectedClass(null)
+        setVisible(!visible)
         setUpdate(!update)
       })
       .catch((err) => {
@@ -34,7 +40,48 @@ function RegisterModal({ visible, setVisible, classes, student, school, update, 
   return (
     <>
       {visible && (
-        <form className="register_modal" onSubmit={handleClick}>
+        <Modal show={visible} onHide={setVisible}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Activity</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Text className="text-muted">
+                  We'll never share your email with anyone else.
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" />
+              </Form.Group>
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Check me out" />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setVisible(!visible)}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={() => setVisible(!visible)}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+    </>
+  )
+}
+
+export default RegisterModal
+
+
+
+{/* <form className="register_modal" onSubmit={handleClick}>
           <label htmlFor="fname" >Activity Name</label><br/>
           <input type="text" id="fname" name="fname" ref={ActivityName}/><br/>
           <label htmlFor="fdescription" >Activity Description</label><br/>
@@ -61,9 +108,4 @@ function RegisterModal({ visible, setVisible, classes, student, school, update, 
           <br />
           <button type="submit"> Submit Here</button>
         </form>
-      )}
-    </>
-  )
-}
-
-export default RegisterModal
+      ) */}

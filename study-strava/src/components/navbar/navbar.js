@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import NavbarItem from "./navbar-item";
 import NavbarRegister from "./navbar-register-activity"
 import "../styles/navbar.css";
+import RegisterModal from "./navbar-register-modal"
 
 
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Button} from 'react-bootstrap';
@@ -10,7 +11,7 @@ import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Button} from 'react-bootstr
 
 function NavigationBar({ classes, studentName, school, update, setUpdate, setActiveTab }) {
 
-  const [show, toggleShow] = useState(true);
+  const [show, toggleShow] = useState(false);
 
   return (
     <>
@@ -26,10 +27,24 @@ function NavigationBar({ classes, studentName, school, update, setUpdate, setAct
               <Nav.Link eventKey="2">Stream</Nav.Link>
             </Nav.Item>
           </Nav>
-          <Button className="ml-auto" variant="outline-success">Search</Button>
-
+          <Button
+            className="ml-auto"
+            variant="outline-success"
+            onClick={() => toggleShow(!show)}
+          >
+            Search
+          </Button>
         </Navbar.Collapse>
       </Navbar>
+      <RegisterModal
+        visible={show}
+        setVisible={toggleShow}
+        classes={classes}
+        student={studentName}
+        school={school}
+        update={update}
+        setUpdate={setUpdate}
+      />
     </>
 
 
