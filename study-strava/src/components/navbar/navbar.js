@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import NavbarItem from "./navbar-item";
 import NavbarRegister from "./navbar-register-activity"
 import "../styles/navbar.css";
@@ -10,16 +10,16 @@ import {Navbar, Nav, NavItem, NavDropdown, MenuItem, Button} from 'react-bootstr
 
 
 function NavigationBar({ classes, studentName, school, update, setUpdate, setActiveTab }) {
-
+  const size = useWindowSize();
   const [show, toggleShow] = useState(false);
 
   return (
     <>
-      <Navbar bg="light" expand="md" className="justify-content-between">
+      <Navbar collapseOnSelect bg="light" expand="md" className="justify-content-between">
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav variant="tabs">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
             <Nav.Item onClick={() => setActiveTab('Calendar')}>
               <Nav.Link eventKey="1">Calendar</Nav.Link>
             </Nav.Item>
@@ -27,79 +27,55 @@ function NavigationBar({ classes, studentName, school, update, setUpdate, setAct
               <Nav.Link eventKey="2">Stream</Nav.Link>
             </Nav.Item>
           </Nav>
-          <Button
-            className="ml-auto"
-            variant="outline-success"
-            onClick={() => toggleShow(!show)}
-          >
-            Search
-          </Button>
+          <Nav>
+          <Nav.Item className={(size.width > 768) && "ml-auto"} onClick={() => toggleShow(!show)}>
+             <Nav.Link eventKey="3">{size.width > 768 ? "+" : "Add Event"}</Nav.Link>
+          </Nav.Item>
+          </Nav>
+          <RegisterModal
+            visible={show}
+            setVisible={toggleShow}
+            classes={classes}
+            student={studentName}
+            school={school}
+            update={update}
+            setUpdate={setUpdate}
+          />
         </Navbar.Collapse>
       </Navbar>
-      <RegisterModal
-        visible={show}
-        setVisible={toggleShow}
-        classes={classes}
-        student={studentName}
-        school={school}
-        update={update}
-        setUpdate={setUpdate}
-      />
     </>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //   <div className="navbar">
-  //     <div id="left">
-  //       <NavbarItem
-  //         txt="Dashboard"
-  //         dropdown={["Activity Feed", "Upcoming Tests"]}
-  //         setActiveTab={setActiveTab}
-  //         height={150}
-  //       />
-  //       <NavbarItem
-  //         txt="Studying"
-  //         dropdown={["Calendar", "Study Log"]}
-  //         setActiveTab={setActiveTab}
-  //         height={150}
-  //       />
-  //       <NavbarItem
-  //         txt="Explore"
-  //         dropdown={["Study Calendar", "Study Log"]}
-  //         setActiveTab={setActiveTab}
-  //         height={150}
-  //       />
-  //     </div>
-  //     <div id="right">
-  //       <NavbarItem
-  //         txt="Dashboard"
-  //         dropdown={["Activity Feed", "Upcoming Tests"]}
-  //         setActiveTab={setActiveTab}
-  //         height={150}
-  //       />
-  //       <NavbarRegister
-  //         classes={classes}
-  //         studentName={studentName}
-  //         school={school}
-  //         update={update}
-  //         setUpdate={setUpdate}
-  //       />
-  //     </div>
-  //   </div>
   )
+}
+
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+
+  return windowSize;
 }
 
 export default NavigationBar

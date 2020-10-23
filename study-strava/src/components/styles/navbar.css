@@ -3,34 +3,9 @@
 }
 
 .navbar {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  background-color: #fff;
-  padding-top: 1em;
-  font-size: 125%;
-  overflow: visible;
-  z-index: 200;
-  position: fixed;
-  border-bottom: 1px solid lightgray;
-  height: 75px;
+  min-height: 75px;
 }
 
-.navbar #left {
-  display: flex;
-  width: 100%;
-  margin-left: 3em;
-  flex-direction: row;
-  justify-content: flex-start;
-  overflow: visible;
-}
-
-.navbar #right {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  flex-direction: row;
-}
 
 
 .navbar-item {
@@ -110,6 +85,13 @@
 .modal-push:hover {
   background-color: blue;
   color: orange;
+}
+
+@media(max-width: 768px) {
+  .nav-tabs {
+    border-bottom: none;
+  }
+
 }
 
 /* div {

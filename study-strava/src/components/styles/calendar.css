@@ -55,7 +55,7 @@ max-width: 100%;
 .calendar {
 display: block;
 position: relative;
-width: 60vw;
+width: 100vw;
 background: white;
 border: 1px solid lightgray;
 height: auto;
@@ -155,5 +155,40 @@ width: calc(100%/7);
 display: flex;
 justify-content: center;
 align-items: flex-end;
+text-align: center;
 }
 
+.col-center {
+  text-align: center;
+}
+
+.col-end {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+.col-start{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media(max-width: 600px) {
+  .calendar .body .cell {
+    height: 6em;
+  }
+
+  .header .col-start {
+    flex-basis: 30%;
+  }
+
+  .header .col-end {
+    flex-basis: 30%;
+  }
+
+  .header .col-center {
+    flex-basis: 40%;
+  }
+}
