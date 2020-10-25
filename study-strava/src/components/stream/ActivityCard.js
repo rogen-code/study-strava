@@ -14,7 +14,7 @@ function ActivityCardCol({ otherActivities }) {
               <span className="name">Your Name</span>
               <span className="handle">@yourhandle</span>
             </span>
-            <span className="time">3h ago</span>
+            <span className="time">{activity.activity_id}</span>
             <div className="message">{activity.activity_description}</div>
             <div className="buttons">
               <FaBeer />

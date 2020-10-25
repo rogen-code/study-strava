@@ -22,13 +22,13 @@ function App() {
   const [userActivities, setUserActivites] = useState([])
   const [activeTab, setActiveTab] = useState("Stream")
   const [otherActivities, setOtherActivities] = useState([])
+  const studentID = window.location.pathname
 
   const didUpdate = () => {
     setUpdate(!update)
   }
 
   useEffect(() => {
-    const studentID = window.location.pathname
     axios
       .get(`http://localhost:4000/getStudentData${studentID}`)
       .then((res) => {
@@ -79,6 +79,7 @@ function App() {
       <Stream
         otherActivities={otherActivities}
         activeTab={activeTab}
+        studentID={studentID}
       />
 
     </div>

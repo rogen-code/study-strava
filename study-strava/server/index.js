@@ -145,8 +145,19 @@ app.get("/getStudentData/:studentID", (req, res) => {
     getStudentName(req.params.studentID),
     getAllTestsForStudent(req.params.studentID),
     getActivities(req.params.studentID),
-    getActivitesForSimilarClasses(req.params.studentID)
   ])
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((e) => {
+      console.log(e)
+      res.status(400).send(e)
+    })
+})
+
+app.get("/getActivityData/:studentID/:offset", (req, res) => {
+  console.log(req.params.offset)
+  getActivitesForSimilarClasses(req.params.studentID, Number(req.params.offset))
     .then((data) => {
       res.send(data)
     })

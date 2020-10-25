@@ -126,3 +126,6 @@ CREATE TABLE Activities (
   FOREIGN KEY (class_id) references Classes(class_id),
   PRIMARY KEY (activity_id)
 );
+
+CREATE INDEX activity_dates
+ON Activities (activity_date);

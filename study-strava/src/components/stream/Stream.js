@@ -1,33 +1,84 @@
-import React from 'react'
+import React, { useEffect, useReducer, useState, useRef, useCallback } from 'react'
 import ActivityCardCol from "./ActivityCard"
+import axios from 'axios'
 import "../styles/streams.css"
 import {Container, Row, Col} from 'react-bootstrap';
 import useWindowSize from "../../helpers/screenSize"
 
 
-function Stream({otherActivities, activeTab}) {
+function Stream({otherActivities, activeTab, studentID}) {
   let size = useWindowSize()
   let width = size.width
 
-  if (activeTab !== "Stream") return null
+  const [activityData, setActivityData] = useState([])
+  let bottomBoundaryRef = useRef(null)
+
+  const pageReducer = (state, action) => {
+    switch (action.type) {
+      case 'ADVANCE_PAGE':
+        return { ...state, page: state.page + 1 }
+      default:
+        return state;
+    }
+  }
+
+  const [ pager, pagerDispatch ] = useReducer(pageReducer, { page: 0 })
+
+  useEffect(() => {
+    axios.get(`http://localhost:4000/getActivityData${studentID}/${pager.page * 5}`)
+      .then((data) => {
+        setActivityData(activityData.concat(data.data))
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }, [ pagerDispatch, pager.page ])
+
+
+  const scrollObserver = useCallback(
+    node => {
+      new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.intersectionRatio > 0) {
+            pagerDispatch({ type: 'ADVANCE_PAGE' });
+          }
+        });
+      }).observe(node);
+    },
+    [pagerDispatch]
+  )
+
+  useEffect(() => {
+    if (bottomBoundaryRef.current) {
+      scrollObserver(bottomBoundaryRef.current)
+    }
+  }, [scrollObserver, bottomBoundaryRef])
+
+
+
+
+
   return (
-    <Container className="tweet" fluid>
-      <Row noGutters={true}>
-        {width > 768 && (
-          <Col>
-            <div className="vertical-placeholder"></div>
+    <>
+      <Container className="tweet" fluid>
+        <Row noGutters={true}>
+          {width > 768 && (
+            <Col>
+              <div className="vertical-placeholder"></div>
+            </Col>
+          )}
+          <Col md={7} lg={6}>
+            <ActivityCardCol otherActivities={activityData} />
           </Col>
-        )}
-        <Col md={7} lg={6}>
-          <ActivityCardCol otherActivities={otherActivities} />
-        </Col>
-        {width > 1200 && (
-          <Col>
-            <div className="vertical-placeholder"></div>
-          </Col>
-        )}
-      </Row>
-    </Container>
+          {width > 1200 && (
+            <Col>
+              <div className="vertical-placeholder"></div>
+            </Col>
+          )}
+        </Row>
+      </Container>
+      <div id='page-bottom-boundary' style={{ border: '1px solid red' }} ref={bottomBoundaryRef}></div>
+    </>
   )
 }
 
