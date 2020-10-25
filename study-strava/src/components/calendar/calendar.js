@@ -17,12 +17,12 @@ import getYear from "date-fns/getYear"
 import isDate from "date-fns/isDate"
 import parseISO from "date-fns/parse"
 import toDate from "date-fns/toDate"
-import parse from "date-fns/parse"
 
 import TestButton from "./TestButton"
 import ActivityButton from "./ActivityButton"
 
 import { Container, Row, Col } from 'react-bootstrap';
+
 
 
 
@@ -38,6 +38,10 @@ const Calendar = ({
   activeTab,
 }) => {
   if (activeTab !== "Calendar") return null;
+
+
+
+
   const nextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1))
   }
@@ -93,6 +97,8 @@ const Calendar = ({
     return <div className="days row">{days}</div>;
   }
 
+
+
   const testDates = {}
   const testFormat = "yyyy-MM-dd"
   if (tests[0]) {
@@ -114,6 +120,8 @@ const Calendar = ({
     })
   }
 
+  let responsiveSizing = false;
+
   const cells = () => {
     const monthStart = startOfMonth(currentDate)
     const monthEnd = endOfMonth(monthStart)
@@ -124,6 +132,9 @@ const Calendar = ({
     let days = []
     let day = startDate
     let formattedDate = ""
+
+
+
     while (day <= endDate) {
       for (let i = 0; i < 7; i += 1) {
         formattedDate = format(day, dateFormat)

@@ -1,7 +1,20 @@
 import React from 'react'
+import {Button, Badge} from 'react-bootstrap';
+import useWindowSize from "../../helpers/screenSize"
 
 function ActivityButton({ day }) {
-  return <div className="test_name">{day.activity_name}</div>
+
+  let size = useWindowSize()
+
+  return (
+    <>
+        <Button variant="danger" className="btn-calendar">
+          {day.activity_name}
+        </Button>
+
+  </>
+  )
 }
+
 
 export default ActivityButton

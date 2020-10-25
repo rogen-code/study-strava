@@ -256,3 +256,16 @@ module.exports.getAllTestsForStudent = (studentID) => {
   })
 }
 
+module.exports.getActivitesForSimilarClasses = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from Activities where class_id in (select class_id from Classes_Students where student_id=?) ORDER BY
+      DATE(activity_date) DESC;`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}

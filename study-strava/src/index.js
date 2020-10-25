@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Calendar from "./components/calendar/calendar.js"
 import NavigationBar from "./components/navbar/navbar"
 import ClassRegistration from "./components/sidebar/ClassRegistration"
+import Stream from "./components/stream/Stream"
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
   const [update, setUpdate] = useState(false)
   const [tests, setTests] = useState([])
   const [userActivities, setUserActivites] = useState([])
-  const [activeTab, setActiveTab] = useState("Calendar")
+  const [activeTab, setActiveTab] = useState("Stream")
+  const [otherActivities, setOtherActivities] = useState([])
 
   const didUpdate = () => {
     setUpdate(!update)
@@ -40,6 +42,8 @@ function App() {
         setTests(classTests)
         const userActivities = res.data[4]
         setUserActivites(userActivities)
+        const othersActivities = res.data[5]
+        setOtherActivities(othersActivities)
       })
       .catch((e) => {
         console.log(e)
@@ -72,7 +76,11 @@ function App() {
           setUpdate={didUpdate}
           update={update}
       /> */}
-      {/* </div> */}
+      <Stream
+        otherActivities={otherActivities}
+        activeTab={activeTab}
+      />
+
     </div>
   )
 }

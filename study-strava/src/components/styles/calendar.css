@@ -71,11 +71,11 @@ border-bottom: 1px solid lightgray;
 cursor: pointer;
 transition: .15s ease-out;
 }
-.calendar .header .icon:hover {
+/* .calendar .header .icon:hover {
 transform: scale(1.75);
 transition: .25s ease-out;
 color: dodgerblue;
-}
+} */
 .calendar .header .icon:first-of-type {
 margin-left: 1em;
 }
@@ -98,8 +98,11 @@ overflow: hidden;
 cursor: pointer;
 background: white;
 transition: 0.25s ease-out;
+display: flex;
+flex-direction: column;
+align-items: flex-end;
 }
-.calendar .body .cell:hover {
+/* .calendar .body .cell:hover {
 background: whitesmoke;
 transition: 0.5s ease-out;
 }
@@ -107,7 +110,7 @@ transition: 0.5s ease-out;
 border-left: 10px solid transparent;
 border-image: linear-gradient(45deg, #1affa0 0%,#cff153 40%);
 border-image-slice: 1;
-}
+} */
 .calendar .body .row {
 border-bottom: 1px solid lightgray;
 }
@@ -125,9 +128,9 @@ top: .75em;
 right: .75em;
 font-weight: 700;
 }
-.calendar .body .cell:hover .number, .calendar .body .selected .number   {
+/* .calendar .body .cell:hover .number, .calendar .body .selected .number   {
 visibility:hidden;
-}
+} */
 .calendar .body .disabled {
 color: lightgray;
 pointer-events: none;
@@ -144,18 +147,18 @@ right: -.05em;
 transition: .25s ease-out;
 letter-spacing: -.07em;
 }
-.calendar .body .cell:hover .bg, .calendar .body .selected .bg  {
+/* .calendar .body .cell:hover .bg, .calendar .body .selected .bg  {
 opacity: 0.2;
 transition: .5s ease-in;
-}
+} */
 .calendar .body .column {
 flex-grow: 0;
 flex-basis: calc(100%/7);
 width: calc(100%/7);
 display: flex;
-justify-content: center;
-align-items: flex-end;
-text-align: center;
+justify-content: flex-end;
+align-items: flex-start;
+text-align: left;
 }
 
 .col-center {
@@ -174,6 +177,26 @@ text-align: center;
   justify-content: flex-end;
   align-items: center;
 }
+
+.btn-primary {
+  font-size: calc(0.5em + 0.5vw);
+  color: pink;
+}
+
+.btn-calendar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25%;
+  font-size: 0.75em;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+
+  overflow: hidden;
+}
+
+
 
 @media(max-width: 600px) {
   .calendar .body .cell {

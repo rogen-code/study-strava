@@ -17,6 +17,7 @@ const {
   getAllTestsForStudent,
   writeActivity,
   getActivities,
+  getActivitesForSimilarClasses,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -144,6 +145,7 @@ app.get("/getStudentData/:studentID", (req, res) => {
     getStudentName(req.params.studentID),
     getAllTestsForStudent(req.params.studentID),
     getActivities(req.params.studentID),
+    getActivitesForSimilarClasses(req.params.studentID)
   ])
     .then((data) => {
       res.send(data)
