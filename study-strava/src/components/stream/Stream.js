@@ -4,9 +4,10 @@ import axios from 'axios'
 import "../styles/streams.css"
 import {Container, Row, Col} from 'react-bootstrap';
 import useWindowSize from "../../helpers/screenSize"
+import UserCard from "./UserCard"
 
 
-function Stream({otherActivities, activeTab, studentID}) {
+function Stream({otherActivities, activeTab, studentID, studentName}) {
   let size = useWindowSize()
   let width = size.width
 
@@ -54,17 +55,13 @@ function Stream({otherActivities, activeTab, studentID}) {
     }
   }, [scrollObserver, bottomBoundaryRef])
 
-
-
-
-
   return (
     <>
       <Container className="tweet" fluid>
         <Row noGutters={true}>
           {width > 768 && (
             <Col>
-              <div className="vertical-placeholder"></div>
+              <UserCard studentName={studentName}/>
             </Col>
           )}
           <Col md={7} lg={6}>

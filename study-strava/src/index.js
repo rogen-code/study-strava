@@ -48,7 +48,7 @@ function App() {
       .catch((e) => {
         console.log(e)
       })
-  }, [update])
+  }, [update, studentID])
 
   return (
     <div>
@@ -60,15 +60,17 @@ function App() {
         school={school}
         setActiveTab={setActiveTab}
       />
-      <Calendar
-        currentDate={currentDate}
-        setCurrentDate={setCurrentDate}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        tests={tests}
-        userActivities={userActivities}
-        activeTab={activeTab}
-      />
+      {activeTab === "Calendar" && (
+        <Calendar
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          tests={tests}
+          userActivities={userActivities}
+          activeTab={activeTab}
+        />
+      )}
      {/* <ClassRegistration
           school={school}
           classes={classes}
@@ -76,12 +78,14 @@ function App() {
           setUpdate={didUpdate}
           update={update}
       /> */}
-      <Stream
-        otherActivities={otherActivities}
-        activeTab={activeTab}
-        studentID={studentID}
-      />
-
+      {activeTab === "Stream" && (
+        <Stream
+          otherActivities={otherActivities}
+          activeTab={activeTab}
+          studentID={studentID}
+          studentName={studentName}
+        />
+      )}
     </div>
   )
 }
