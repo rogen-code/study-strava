@@ -23,11 +23,6 @@ import ActivityButton from "./ActivityButton"
 
 import { Container, Row, Col } from 'react-bootstrap';
 
-
-
-
-
-
 const Calendar = ({
   currentDate,
   setCurrentDate,
@@ -37,10 +32,6 @@ const Calendar = ({
   userActivities,
   activeTab,
 }) => {
-  if (activeTab !== "Calendar") return null;
-
-
-
 
   const nextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1))

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import UserCardNumbers from './UserCardNumbers'
+import LatestActivity from "./UserCardLatestActivity"
 import {Card, Button, ListGroup} from 'react-bootstrap';
+import StudyLog from "./UserCardStudyLog"
 
 function UserCard({
   studentName,
@@ -9,15 +11,6 @@ function UserCard({
   youFollow,
   userActivities
 }) {
-
-  const userActivitesReversed = []
-
-  useEffect(() => {
-    for (let i = userActivities.length - 1; i > -1; i -= 1) {
-      userActivitesReversed.push(userActivities[i])
-    }
-  }, [userActivities, userActivitesReversed])
-
   return (
     <div id="left">
       <Card className="text-center" style={{ width: "18rem" }}>
@@ -44,11 +37,15 @@ function UserCard({
             <UserCardNumbers
               title="Activities"
               number={activityCount}
-              modalDisplay={userActivitesReversed}
+              modalDisplay={userActivities}
             />
           </ListGroup.Item>
-          <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-          <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+          <ListGroup.Item>
+            <LatestActivity userActivities={userActivities} />
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <StudyLog />
+          </ListGroup.Item>
         </ListGroup>
       </Card>
     </div>

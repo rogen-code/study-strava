@@ -68,3 +68,19 @@
     cursor: pointer;
   }
 
+  .user-card-latest:hover {
+    cursor: pointer;
+  }
+
+  .user-card-latest {
+    margin-left: -7px;
+  }
+
+
+
+  .study-log-left {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 9px;
+  }
+
