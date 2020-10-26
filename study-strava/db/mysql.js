@@ -63,6 +63,32 @@ module.exports.writeStudent = (studentName, schoolName) => {
   })
 }
 
+module.exports.writeFollower = (followerID, followingID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Followers_Following (student_follower, student_following) VALUES (?, ?);`,
+      [followerID, followingID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.writeFollowerSeed = (followerName, followerSchool, followingName, followingSchool) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Followers_Following (student_follower, student_following) VALUES ((select student_id from students where student_name=? and school_id=(select school_id from schools where school_name=?)), (select student_id from students where student_name=? and school_id=(select school_id from schools where school_name=?)));`,
+      [followerName, followerSchool, followingName, followingSchool],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
 module.exports.writeTest = (testName, testDate, testDescription, className, teacherName, schoolName, periodNumber) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -256,10 +282,37 @@ module.exports.getAllTestsForStudent = (studentID) => {
   })
 }
 
+module.exports.getAllFollowers = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from students where student_id in (select student_following from Followers_Following where student_follower=?)`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.getAllFollowing = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from students where student_id in (select student_follower from Followers_Following where student_following=?)`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+
 module.exports.getActivitesForSimilarClasses = (studentID, offset) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select * from Activities where class_id in (select class_id from Classes_Students where student_id=?) ORDER BY
+      `select * from Activities where student_id in (select student_following from Followers_Following where student_follower=?) ORDER BY
       DATE(activity_date) DESC LIMIT 20 OFFSET ? ;`,
       [studentID, offset],
       (error, results) => {

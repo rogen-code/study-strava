@@ -87,6 +87,21 @@ CREATE TABLE Classes_Students (
 );
 
 -- ---
+-- Table 'Classes_Students'
+--
+-- ---
+
+DROP TABLE IF EXISTS Followers_Following;
+
+CREATE TABLE Followers_Following (
+  student_follower INTEGER NOT NULL,
+  student_following INTEGER NOT NULL,
+  FOREIGN KEY (student_follower) references Students(student_id),
+  FOREIGN KEY (student_following) references Students(student_id),
+  PRIMARY KEY (student_follower, student_following)
+);
+
+-- ---
 -- Table 'Tests'
 --
 -- ---

@@ -7,7 +7,15 @@ import useWindowSize from "../../helpers/screenSize"
 import UserCard from "./UserCard"
 
 
-function Stream({otherActivities, activeTab, studentID, studentName}) {
+function Stream({
+  activeTab,
+  studentID,
+  studentName,
+  activityCount,
+  yourFollowers,
+  youFollow,
+  userActivities,
+}) {
   let size = useWindowSize()
   let width = size.width
 
@@ -61,7 +69,13 @@ function Stream({otherActivities, activeTab, studentID, studentName}) {
         <Row noGutters={true}>
           {width > 768 && (
             <Col>
-              <UserCard studentName={studentName}/>
+              <UserCard
+                studentName={studentName}
+                activityCount={activityCount}
+                yourFollowers={yourFollowers}
+                youFollow={youFollow}
+                userActivities={userActivities}
+              />
             </Col>
           )}
           <Col md={7} lg={6}>

@@ -9,6 +9,7 @@ const {
   writeTest,
   registerClass,
   writeActivitySeed,
+  writeFollowerSeed,
 } = require("./db/mysql.js")
 
 const { formatDate, startDate, endDate } = require("./timeSeed.js")
@@ -111,7 +112,7 @@ function writeTests() {
 
 }
 
-const students = []
+const students = {}
 const studentAsync = []
 
 function writeStudents() {
@@ -126,6 +127,36 @@ function writeStudents() {
   }
   return Promise.all(studentAsync)
 }
+
+const followersAsync = []
+
+function writeFollowers() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    for (let i = 0; i < students[schoolName].length; i += 1) {
+      const follower = students[schoolName][i]
+      const cache = {}
+      for (let m = 0; m < 100; m++) {
+        const num = getRandom(students[schoolName].length - 1)
+        if (num !== i && !cache[num]) {
+          cache[num] = true
+          const follows = students[schoolName][num]
+          followersAsync.push(
+            writeFollowerSeed(follower, schoolName, follows, schoolName).catch(
+              (e) => {
+                console.log(e)
+              }
+            )
+          )
+        } else {
+          m -= 1
+        }
+      }
+    }
+  }
+  return Promise.all(followersAsync)
+}
+
 
 const registeredClasses = {}
 const classesAsync = []
@@ -196,6 +227,9 @@ Promise.all(writeSchoolsPromise)
   })
   .then(() => {
     writeStudents()
+  })
+  .then(() => {
+    writeFollowers()
   })
   .then(() => {
     registerClasses()

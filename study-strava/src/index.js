@@ -21,7 +21,10 @@ function App() {
   const [tests, setTests] = useState([])
   const [userActivities, setUserActivites] = useState([])
   const [activeTab, setActiveTab] = useState("Stream")
-  const [otherActivities, setOtherActivities] = useState([])
+  const [activityCount, setActivityCount] = useState(0)
+  const [yourFollowers, setYourFollowers] = useState([])
+  const [youFollow, setYouFollow] = useState([])
+
   const studentID = window.location.pathname
 
   const didUpdate = () => {
@@ -42,8 +45,11 @@ function App() {
         setTests(classTests)
         const userActivities = res.data[4]
         setUserActivites(userActivities)
-        const othersActivities = res.data[5]
-        setOtherActivities(othersActivities)
+        setActivityCount(userActivities.length)
+        const followers = res.data[5]
+        setYourFollowers(followers)
+        const following = res.data[6]
+        setYouFollow(following)
       })
       .catch((e) => {
         console.log(e)
@@ -80,10 +86,13 @@ function App() {
       /> */}
       {activeTab === "Stream" && (
         <Stream
-          otherActivities={otherActivities}
           activeTab={activeTab}
           studentID={studentID}
           studentName={studentName}
+          activityCount={activityCount}
+          yourFollowers={yourFollowers}
+          youFollow={youFollow}
+          userActivities={userActivities}
         />
       )}
     </div>
