@@ -352,7 +352,7 @@ module.exports.getAllFollowing = (studentID) => {
 module.exports.getActivitesForSimilarClasses = (studentID, offset) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select activity_date, activity_description, activity_id, activity_name, likes, Students.student_name from Activities JOIN Students on Activities.student_id=Students.student_id where Students.student_id in (select student_following from Followers_Following where student_follower=?) ORDER BY DATE(activity_date) DESC LIMIT 20 OFFSET ? ;`,
+      `select activity_date, activity_description, activity_id, activity_name, likes, Students.student_name from Activities JOIN Students on Activities.student_id=Students.student_id where Students.student_id in (select student_following from Followers_Following where student_follower=?) and activity_date < Now() ORDER BY DATE(activity_date) DESC LIMIT 20 OFFSET ? ;`,
       [studentID, offset],
       (error, results) => {
         if (error) reject(error)
