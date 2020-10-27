@@ -1,10 +1,11 @@
 import React, { useEffect, useReducer, useState, useRef, useCallback } from 'react'
-import ActivityCardCol from "./ActivityCard"
+import ActivityCardCol from "./UserCard/ActivityCard"
 import axios from 'axios'
 import "../styles/streams.css"
 import {Container, Row, Col} from 'react-bootstrap';
 import useWindowSize from "../../helpers/screenSize"
-import UserCard from "./UserCard"
+import UserCard from "./UserCard/UserCard"
+import ActivitiesChart from "./ActivitiesChart/ActivitiesChart"
 
 
 function Stream({
@@ -76,6 +77,8 @@ function Stream({
                 youFollow={youFollow}
                 userActivities={userActivities}
               />
+              <ActivitiesChart />
+
             </Col>
           )}
           <Col md={7} lg={6}>
