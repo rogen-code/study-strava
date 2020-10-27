@@ -4,7 +4,7 @@ import format from "date-fns/format"
 
 
 
-function ActivityChart({ upcomingStudySession }) {
+function ActivityChart({ upcomingStudySession, setActiveTab }) {
   const sessions = []
 
   for (let i = 0; i < 5; i++) {
@@ -46,7 +46,7 @@ function ActivityChart({ upcomingStudySession }) {
       <ListGroup variant="flush">
         {sessions}
       </ListGroup>
-      <Button>
+      <Button onClick={() => setActiveTab('Study Sessions')}>
         Register
       </Button>
     </Card>

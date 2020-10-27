@@ -17,6 +17,7 @@ function Stream({
   youFollow,
   userActivities,
   upcomingStudySession,
+  setActiveTab
 }) {
   let size = useWindowSize()
   let width = size.width
@@ -80,6 +81,7 @@ function Stream({
               />
               <ActivitiesChart
                 upcomingStudySession={upcomingStudySession}
+                setActiveTab={setActiveTab}
               />
 
             </Col>

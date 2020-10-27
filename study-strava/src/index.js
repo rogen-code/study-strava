@@ -93,6 +93,7 @@ function App() {
       /> */}
       {activeTab === "Stream" && (
         <Stream
+          setActiveTab={setActiveTab}
           activeTab={activeTab}
           studentID={studentID}
           studentName={studentName}
