@@ -8,7 +8,7 @@ function ActivityButton({ day }) {
 
   return (
     <>
-        <Button variant="danger" className="btn-calendar">
+        <Button className="btn-calendar" variant="info">
           {day.activity_name}
         </Button>
 

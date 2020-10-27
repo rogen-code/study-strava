@@ -20,7 +20,9 @@ const {
   getActivitesForSimilarClasses,
   getAllFollowers,
   getAllFollowing,
-  getRegisteredStudySessions
+  getFutureRegisteredStudySessions,
+  getAllRegisteredStudySessions,
+  getNotEnrolledFutureStudySessions,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -161,7 +163,8 @@ app.get("/getStudentData/:studentID", (req, res) => {
     getActivities(req.params.studentID),
     getAllFollowers(req.params.studentID),
     getAllFollowing(req.params.studentID),
-    getRegisteredStudySessions(req.params.studentID),
+    getFutureRegisteredStudySessions(req.params.studentID),
+    getAllRegisteredStudySessions(req.params.studentID),
   ])
     .then((data) => {
       res.send(data)

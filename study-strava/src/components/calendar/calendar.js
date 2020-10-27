@@ -20,6 +20,8 @@ import toDate from "date-fns/toDate"
 
 import TestButton from "./TestButton"
 import ActivityButton from "./ActivityButton"
+import SessionButton from "./SessionButton"
+
 
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -31,6 +33,7 @@ const Calendar = ({
   tests,
   userActivities,
   activeTab,
+  yourStudySessions,
 }) => {
 
   const nextMonth = () => {
@@ -111,6 +114,17 @@ const Calendar = ({
     })
   }
 
+  const studySessions = {}
+  if (yourStudySessions !== undefined) {
+    yourStudySessions.forEach((activity) => {
+      const formatDay = activity.session_date.split("T")[0]
+      studySessions[formatDay]
+        ? studySessions[formatDay].push(activity)
+        : studySessions[formatDay] = [activity]
+    })
+  }
+
+
   let responsiveSizing = false;
 
   const cells = () => {
@@ -147,6 +161,10 @@ const Calendar = ({
             {activityDates[format(day, testFormat)] &&
               activityDates[format(day, testFormat)].map((d) => (
                 <ActivityButton day={d} key={d.activity_id} />
+              ))}
+            {studySessions[format(day, testFormat)] &&
+              studySessions[format(day, testFormat)].map((d) => (
+                <SessionButton day={d} key={d.session_id} />
               ))}
           </div>
         )

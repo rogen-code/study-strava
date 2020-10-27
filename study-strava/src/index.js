@@ -25,6 +25,7 @@ function App() {
   const [yourFollowers, setYourFollowers] = useState([])
   const [youFollow, setYouFollow] = useState([])
   const [yourUpcomingStudySessions, setYourUpcomingStudySessions] = useState([])
+  const [yourStudySessions, setYourStudySessions] = useState([])
 
   const studentID = window.location.pathname
 
@@ -53,6 +54,8 @@ function App() {
         setYouFollow(following)
         const upcomingStudySession = res.data[7]
         setYourUpcomingStudySessions(upcomingStudySession)
+        const historicalStudySession = res.data[8]
+        setYourStudySessions(historicalStudySession)
       })
       .catch((e) => {
         console.log(e)
@@ -78,6 +81,7 @@ function App() {
           tests={tests}
           userActivities={userActivities}
           activeTab={activeTab}
+          yourStudySessions={yourStudySessions}
         />
       )}
      {/* <ClassRegistration

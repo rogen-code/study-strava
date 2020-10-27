@@ -363,7 +363,7 @@ module.exports.getActivitesForSimilarClasses = (studentID, offset) => {
   })
 }
 
-module.exports.getRegisteredStudySessions = (studentID) => {
+module.exports.getFutureRegisteredStudySessions = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions join Teachers on Study_sessions.teacher_id where Study_Sessions.teacher_id=Teachers.teacher_id and session_id in (select session_id from Session_Registrations where Session_Registrations.student_id = ?) and session_date > Now() ORDER BY DATE(session_date) ASC;`,
@@ -376,11 +376,25 @@ module.exports.getRegisteredStudySessions = (studentID) => {
   })
 }
 
-module.exports.getAllFutureStudySessions = (offset) => {
+module.exports.getNotEnrolledFutureStudySessions = (studentID, offset = 0) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions join Teachers on Study_sessions.teacher_id where Study_Sessions.teacher_id=Teachers.teacher_id and session_date > Now() ORDER BY DATE(session_date) ASC LIMIT 20 OFFSET ?;`,
-      [offset],
+      `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions JOIN Teachers on Study_sessions.teacher_id=Teachers.teacher_id join Classes on Teachers.teacher_id=Classes.teacher_id and session_date > Now() and session_id NOT IN (select session_id from Session_Registrations where Session_Registrations.student_id = ?)  and Classes.class_name in (select class_name from Classes where class_id in (select class_id from Classes_Students where student_id= ?)) ORDER BY DATE(session_date) ASC LIMIT 20 OFFSET ?;`,
+      [studentID, studentID, offset],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+
+module.exports.getAllRegisteredStudySessions = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions join Teachers on Study_sessions.teacher_id join Session_Registrations on Study_Sessions.session_id=Session_Registrations.session_id where Study_Sessions.teacher_id=Teachers.teacher_id and student_id=?;`,
+      [studentID],
       (error, results) => {
         if (error) reject(error)
         resolve(results)
