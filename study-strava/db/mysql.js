@@ -52,7 +52,6 @@ module.exports.writeStudySessions = (sessionName, sessionURL, sessionDate, sessi
 }
 
 module.exports.registerStudySessionSeed = (sessionName, sessionDescription, sessionURL, studentName, schoolName) => {
-  // console.log( `INSERT INTO Session_Registrations (session_id, student_id) VALUES ((select session_id from study_sessions where session_name=${sessionName} and session_description=${sessionDescription} and session_url=${sessionURL}), (select student_id from students where student_name=${studentName} and school_id=(select school_id from schools where school_name=${schoolName})));`)
   return new Promise((resolve, reject) => {
     pool.query(
       `INSERT INTO Session_Registrations (session_id, student_id) VALUES ((select session_id from study_sessions where session_name=? and session_description=? and session_url=?), (select student_id from students where student_name=? and school_id=(select school_id from schools where school_name=?)));`,
@@ -350,13 +349,38 @@ module.exports.getAllFollowing = (studentID) => {
   })
 }
 
-
 module.exports.getActivitesForSimilarClasses = (studentID, offset) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `select * from Activities where student_id in (select student_following from Followers_Following where student_follower=?) ORDER BY
       DATE(activity_date) DESC LIMIT 20 OFFSET ? ;`,
       [studentID, offset],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.getRegisteredStudySessions = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions join Teachers on Study_sessions.teacher_id where Study_Sessions.teacher_id=Teachers.teacher_id and session_id in (select session_id from Session_Registrations where Session_Registrations.student_id = ?) and session_date > Now() ORDER BY DATE(session_date) ASC;`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.getAllFutureStudySessions = (offset) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions join Teachers on Study_sessions.teacher_id where Study_Sessions.teacher_id=Teachers.teacher_id and session_date > Now() ORDER BY DATE(session_date) ASC LIMIT 20 OFFSET ?;`,
+      [offset],
       (error, results) => {
         if (error) reject(error)
         resolve(results)

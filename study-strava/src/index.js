@@ -24,6 +24,7 @@ function App() {
   const [activityCount, setActivityCount] = useState(0)
   const [yourFollowers, setYourFollowers] = useState([])
   const [youFollow, setYouFollow] = useState([])
+  const [yourUpcomingStudySessions, setYourUpcomingStudySessions] = useState([])
 
   const studentID = window.location.pathname
 
@@ -50,6 +51,8 @@ function App() {
         setYourFollowers(followers)
         const following = res.data[6]
         setYouFollow(following)
+        const upcomingStudySession = res.data[7]
+        setYourUpcomingStudySessions(upcomingStudySession)
       })
       .catch((e) => {
         console.log(e)
@@ -93,6 +96,7 @@ function App() {
           yourFollowers={yourFollowers}
           youFollow={youFollow}
           userActivities={userActivities}
+          upcomingStudySession={yourUpcomingStudySessions}
         />
       )}
     </div>

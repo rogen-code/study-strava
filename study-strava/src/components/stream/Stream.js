@@ -16,6 +16,7 @@ function Stream({
   yourFollowers,
   youFollow,
   userActivities,
+  upcomingStudySession,
 }) {
   let size = useWindowSize()
   let width = size.width
@@ -69,7 +70,7 @@ function Stream({
       <Container className="tweet" fluid>
         <Row noGutters={true}>
           {width > 768 && (
-            <Col>
+            <Col className="cards">
               <UserCard
                 studentName={studentName}
                 activityCount={activityCount}
@@ -77,7 +78,9 @@ function Stream({
                 youFollow={youFollow}
                 userActivities={userActivities}
               />
-              <ActivitiesChart />
+              <ActivitiesChart
+                upcomingStudySession={upcomingStudySession}
+              />
 
             </Col>
           )}

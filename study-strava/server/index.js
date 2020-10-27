@@ -20,6 +20,7 @@ const {
   getActivitesForSimilarClasses,
   getAllFollowers,
   getAllFollowing,
+  getRegisteredStudySessions
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -27,6 +28,17 @@ app.use(express.json())
 app.use("/", express.static("build"))
 app.use("/:studentID", express.static("build"))
 app.use(cors())
+
+app.get("/sessions/hello", (req, res) => {
+  console.log('hi')
+  getRegisteredStudySessions(5)
+    .then((classes) => {
+      res.send(classes)
+    })
+    .catch((e) => {
+      res.send(e)
+    })
+})
 
 app.post("/writeSchool", (req, res) => {
   writeSchools(req.body.schoolName)
@@ -149,6 +161,7 @@ app.get("/getStudentData/:studentID", (req, res) => {
     getActivities(req.params.studentID),
     getAllFollowers(req.params.studentID),
     getAllFollowing(req.params.studentID),
+    getRegisteredStudySessions(req.params.studentID),
   ])
     .then((data) => {
       res.send(data)
@@ -179,6 +192,8 @@ app.get("/getAllClassesAtSchool/:schoolName", cors(), (req, res) => {
       res.send(e)
     })
 })
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

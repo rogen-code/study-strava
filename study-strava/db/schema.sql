@@ -155,7 +155,7 @@ CREATE TABLE Study_Sessions (
   session_id INTEGER AUTO_INCREMENT,
   session_name VARCHAR(100) NOT NULL,
   session_url VARCHAR(100) NOT NULL,
-  session_date DATE NOT NULL,
+  session_date DATETIME NOT NULL,
   session_description VARCHAR(255) DEFAULT NULL,
   likes INTEGER DEFAULT 0,
   class_id INTEGER,
