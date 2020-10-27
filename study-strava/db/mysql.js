@@ -37,6 +37,48 @@ module.exports.writeTeachers = (teacherName, schoolName) => {
   })
 }
 
+module.exports.writeStudySessions = (sessionName, sessionURL, sessionDate, sessionDescription, className, teacherName, schoolName, periodNumber ) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO STUDY_SESSIONS (session_name, session_url, session_date, session_description, class_id, teacher_id) VALUES (?,?,?,?,
+        (select class_id from classes where class_name=? and teacher_id=(select teacher_id from teachers where teacher_name=?) and school_id=(select school_id from schools where school_name=?) and period_number=?),(select teacher_id from teachers where teacher_name=? and school_id=(select school_id from schools where school_name=?)));`,
+      [sessionName, sessionURL, sessionDate, sessionDescription, className, teacherName, schoolName, periodNumber, teacherName, schoolName],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.registerStudySessionSeed = (sessionName, sessionDescription, sessionURL, studentName, schoolName) => {
+  // console.log( `INSERT INTO Session_Registrations (session_id, student_id) VALUES ((select session_id from study_sessions where session_name=${sessionName} and session_description=${sessionDescription} and session_url=${sessionURL}), (select student_id from students where student_name=${studentName} and school_id=(select school_id from schools where school_name=${schoolName})));`)
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Session_Registrations (session_id, student_id) VALUES ((select session_id from study_sessions where session_name=? and session_description=? and session_url=?), (select student_id from students where student_name=? and school_id=(select school_id from schools where school_name=?)));`,
+      [sessionName, sessionDescription, sessionURL, studentName, schoolName],
+      (error, results) => {
+        console.log(error)
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
+module.exports.registerStudySession = (sessionID, studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO Session_Registrations (session_id, student_id) VALUES (?, ?);`,
+      [sessionID, studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
 module.exports.writeClass = (className, teacherName, schoolName, periodNum) => {
   return new Promise((resolve, reject) => {
     pool.query(

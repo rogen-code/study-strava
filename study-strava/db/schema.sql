@@ -83,7 +83,6 @@ CREATE TABLE Classes_Students (
   class_id INTEGER NOT NULL,
   student_id INTEGER NOT NULL,
   PRIMARY KEY (class_id, student_id)
-
 );
 
 -- ---
@@ -150,22 +149,36 @@ ON Activities (activity_date);
 --
 -- ---
 
-DROP TABLE IF EXISTS Activities;
+DROP TABLE IF EXISTS Study_Sessions;
 
-CREATE TABLE Activities (
-  activity_id INTEGER AUTO_INCREMENT,
-  activity_name VARCHAR(100) NOT NULL,
-  activity_date DATE NOT NULL,
-  activity_description VARCHAR(255) DEFAULT NULL,
+CREATE TABLE Study_Sessions (
+  session_id INTEGER AUTO_INCREMENT,
+  session_name VARCHAR(100) NOT NULL,
+  session_url VARCHAR(100) NOT NULL,
+  session_date DATE NOT NULL,
+  session_description VARCHAR(255) DEFAULT NULL,
   likes INTEGER DEFAULT 0,
-  student_id INTEGER,
-  school_id INTEGER,
   class_id INTEGER,
-  FOREIGN KEY (student_id) references Students(student_id),
-  FOREIGN KEY (school_id) references Schools(school_id),
+  teacher_id INTEGER,
   FOREIGN KEY (class_id) references Classes(class_id),
-  PRIMARY KEY (activity_id)
+  FOREIGN KEY (teacher_id) references Teachers(teacher_id),
+  PRIMARY KEY (session_id)
 );
 
-CREATE INDEX activity_dates
-ON Activities (activity_date);
+CREATE INDEX session_date
+ON Study_Sessions (session_date);
+
+-- ---
+-- Table 'Session Registrations'
+--
+-- ---
+
+DROP TABLE IF EXISTS Session_Registrations;
+
+CREATE TABLE Session_Registrations (
+  session_id INTEGER NOT NULL,
+  student_id INTEGER NOT NULL,
+  FOREIGN KEY (session_id) references Study_Sessions(session_id),
+  FOREIGN KEY (student_id) references Students(student_id),
+  PRIMARY KEY (session_id, student_id)
+);

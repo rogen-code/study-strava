@@ -10,6 +10,8 @@ const {
   registerClass,
   writeActivitySeed,
   writeFollowerSeed,
+  writeStudySessions,
+  registerStudySessionSeed,
 } = require("./db/mysql.js")
 
 const { formatDate, startDate, endDate } = require("./timeSeed.js")
@@ -84,11 +86,32 @@ function writeClasses() {
       }
     }
   }
-  console.log(classes)
   return Promise.all(classPromises)
 }
 
+const asyncStudySessions = []
+const studySessions = {}
 
+function writeSessions() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    for (let j = 0; j < classes[schoolName].length; j += 1) {
+      for (let l = 0; l < 10; l += 1) {
+        const className = classes[schoolName][j][0]
+        if (studySessions[className] === undefined) studySessions[className] = []
+        const sessionName = `${className} Study Session`
+        const teacherName = classes[schoolName][j][1]
+        const sessionDate = formatDate(faker.date.between(startDate, endDate))
+        const sessionURL = faker.internet.url()
+        const sessionDescription = faker.lorem.sentence()
+        const periodNumber = classes[schoolName][j][3]
+        studySessions[className].push([sessionName, sessionURL, sessionDate,sessionDescription, className, teacherName, schoolName, periodNumber])
+        asyncStudySessions.push(writeStudySessions(sessionName, sessionURL, sessionDate,sessionDescription, className, teacherName, schoolName, periodNumber))
+      }
+    }
+  }
+  return Promise.all(asyncStudySessions)
+}
 
 const tests = []
 
@@ -186,6 +209,34 @@ function registerClasses() {
   return Promise.all(classesAsync)
 }
 
+
+const asyncRegisterStudySessions = []
+
+
+function registerStudySessions() {
+  for (let k = 0; k < schoolNames.length; k += 1) {
+    const schoolName = schoolNames[k]
+    for (let j = 0; j < registeredClasses[schoolName].length; j += 1) {
+      const cache = {}
+      const studentName = registeredClasses[schoolName][j][0]
+      const className = registeredClasses[schoolName][j][2]
+      for (let i = 0; i < 5; i++) {
+        let num = getRandom(studySessions[className].length - 1)
+        if (cache[num] === undefined) {
+          cache[num] = true
+          const sessionName = studySessions[className][num][0]
+          const sessionURL = studySessions[className][num][1]
+          const sessionDescription = studySessions[className][num][3]
+          asyncRegisterStudySessions.push(registerStudySessionSeed(sessionName, sessionDescription, sessionURL, studentName, schoolName).catch((e) => {console.log(e)}))
+        } else {
+          i -= 1
+        }
+      }
+    }
+  }
+  return Promise.all(asyncRegisterStudySessions)
+}
+
 const activitiesAsync = []
 
 function writeActivities() {
@@ -223,6 +274,9 @@ Promise.all(writeSchoolsPromise)
     writeClasses()
   })
   .then(() => {
+    writeSessions()
+  })
+  .then(() => {
     writeTests()
   })
   .then(() => {
@@ -233,6 +287,9 @@ Promise.all(writeSchoolsPromise)
   })
   .then(() => {
     registerClasses()
+  })
+  .then(() => {
+    registerStudySessions()
   })
   .then(() => {
     writeActivities()
