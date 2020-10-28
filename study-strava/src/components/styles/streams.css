@@ -148,3 +148,9 @@
     margin-top: 48px;
   }
 
+  .studySessions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+

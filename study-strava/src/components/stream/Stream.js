@@ -83,6 +83,7 @@ function Stream({
                 upcomingStudySession={upcomingStudySession}
                 setActiveTab={setActiveTab}
                 toPage="Study Sessions"
+                studentID={studentID}
               />
 
             </Col>

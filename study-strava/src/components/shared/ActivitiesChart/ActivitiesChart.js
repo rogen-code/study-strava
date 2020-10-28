@@ -1,10 +1,11 @@
 import React from 'react'
 import { Card, Button, ListGroup } from 'react-bootstrap';
 import format from "date-fns/format"
+import DeleteButton from "./DeleteButton"
 
 
 
-function ActivityChart({ upcomingStudySession, setActiveTab, toPage }) {
+function ActivityChart({ upcomingStudySession, setActiveTab, toPage, studentID, getNewData, update, setUpdate }) {
   const sessions = []
 
   for (let i = 0; i < 5; i++) {
@@ -22,20 +23,23 @@ function ActivityChart({ upcomingStudySession, setActiveTab, toPage }) {
       sessions.push(<ListGroup.Item>...</ListGroup.Item>)
     } else {
       sessions.push(
-        <a
-          href={upcomingStudySession[i].session_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="upcoming-sessions-items"
-        >
-          <ListGroup.Item>
+        <ListGroup.Item className="studySessions">
+          <div>
             {upcomingStudySession[i].session_name}
             <br />
             {formatDay}
             <br />
             {upcomingStudySession[i].teacher_name}
-          </ListGroup.Item>
-        </a>
+          </div>
+          <div>
+            <DeleteButton
+              sessionID={upcomingStudySession[i].session_id}
+              studentID={studentID}
+              update={update}
+              setUpdate={setUpdate}
+            />
+          </div>
+        </ListGroup.Item>
       )
     }
   }

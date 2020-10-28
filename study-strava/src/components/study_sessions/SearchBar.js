@@ -5,10 +5,6 @@ import { FaSearch } from 'react-icons/fa';
 
 function SearchBar({ search, fetchData, pagerDispatch }) {
 
-  function handleClick(e) {
-    fetchData(e)
-  }
-
   return (
     <Form className="searchForm">
       <Form.Group controlId="formBasicEmail">
@@ -19,7 +15,7 @@ function SearchBar({ search, fetchData, pagerDispatch }) {
             ref={search}
             className="searchTerm"
           />
-          <Button onClick={fetchData} className="searchButton"><FaSearch/></Button>
+          <Button onClick={fetchData} className="searchButton"><FaSearch /></Button>
         </div>
       </Form.Group>
     </Form>

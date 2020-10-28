@@ -17,6 +17,7 @@ const {
   getStudentName,
   deleteClass,
   getAllTestsForStudent,
+  deleteStudySession,
   writeActivity,
   getActivities,
   getActivitesForSimilarClasses,
@@ -143,6 +144,18 @@ app.put("/deleteClass", (req, res) => {
       res.send(result)
     })
 
+    .catch((err) => {
+      res.send(err)
+    })
+})
+
+app.delete("/deleteSession/:sessionID/:studentID", (req, res) => {
+  console.log(req.params.sessionID, req.params.studentID)
+
+  deleteStudySession(Number(req.params.sessionID), Number(req.params.studentID))
+    .then((result) => {
+      res.send(result)
+    })
     .catch((err) => {
       res.send(err)
     })

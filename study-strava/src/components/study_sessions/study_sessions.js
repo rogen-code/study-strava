@@ -94,6 +94,10 @@ function StudySession({ studentID, setActiveTab, futureTests, yourUpcomingStudyS
               upcomingStudySession={yourUpcomingStudySessions}
               setActiveTab={setActiveTab}
               toPage={"Register Classes"}
+              studentID={studentID}
+              getNewData={getNewData}
+              update={update}
+              setUpdate={setUpdate}
             />
           </Col>
         )}

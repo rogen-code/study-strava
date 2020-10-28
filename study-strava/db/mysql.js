@@ -78,6 +78,19 @@ module.exports.registerStudySession = (sessionID, studentID) => {
   })
 }
 
+module.exports.deleteStudySession = (sessionID, studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM Session_Registrations where session_id=? and student_id=?;`,
+      [sessionID, studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
 module.exports.writeClass = (className, teacherName, schoolName, periodNum) => {
   return new Promise((resolve, reject) => {
     pool.query(
