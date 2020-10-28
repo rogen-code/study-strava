@@ -1,10 +1,17 @@
 import React, { useEffect, useReducer, useState, useRef, useCallback } from 'react'
 import axios from 'axios'
+import {Container, Row, Col} from 'react-bootstrap';
+import useWindowSize from "../../helpers/screenSize"
 
+import UpcomingTestChart from "../shared/UpcomingTests/UpcomingTests"
+import ActivitiesChart from "../shared/ActivitiesChart/ActivitiesChart"
 import SearchBar from "./SearchBar"
 import SessionCards from "./SessionCards"
 
-function StudySession({ studentID }) {
+
+function StudySession({ studentID, setActiveTab, futureTests, yourUpcomingStudySessions, update, setUpdate }) {
+  let size = useWindowSize()
+  let width = size.width
 
   const pageReducer = (state, action) => {
     switch (action.type) {
@@ -35,8 +42,7 @@ function StudySession({ studentID }) {
   }
 
   const getNewData = (event) => {
-    event.preventDefault();
-    console.log('hello from getting new data')
+    if (event) event.preventDefault();
     axios
       .get(`http://localhost:4000/getNotEnrolled${studentID}&${0}&${searchRef.current.value}`)
       .then((data) => {
@@ -75,15 +81,49 @@ function StudySession({ studentID }) {
   }, [scrollObserver, bottomBoundaryRef])
 
   return (
-    <>
-      <SearchBar
-        search={searchRef}
-        fetchData={getNewData}
-        pagerDispatch={pagerDispatch}
+    <Container fluid>
+      <Row noGutters={true}>
+        {width >= 768 && (
+          <Col className="cards">
+            <UpcomingTestChart
+              upcomingStudySession={futureTests}
+              setActiveTab={setActiveTab}
+              toPage="Calendar"
+            />
+            <ActivitiesChart
+              upcomingStudySession={yourUpcomingStudySessions}
+              setActiveTab={setActiveTab}
+              toPage={"Register Classes"}
+            />
+          </Col>
+        )}
+        <Col md={7} xl={6}>
+        <SearchBar
+            search={searchRef}
+            fetchData={getNewData}
+            pagerDispatch={pagerDispatch}
+          />
+          <SessionCards
+            activityData={activityData}
+            studentID={studentID}
+            update={update}
+            setUpdate={setUpdate}
+            getNewData={getNewData}
+            searchRef={searchRef}
+          />
+        </Col>
+        {width > 1200 && (
+            <Col>
+              <div className="vertical-placeholder"></div>
+            </Col>
+          )}
+      </Row>
+      <div
+        id='page-bottom-boundary'
+        style={{ border: '1px solid red' }}
+        ref={bottomBoundaryRef}
       />
-      <SessionCards activityData={activityData} />
-      <div id='page-bottom-boundary' style={{ border: '1px solid red' }} ref={bottomBoundaryRef}></div>
-    </>
+    </Container>
     )
 }
 

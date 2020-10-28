@@ -107,3 +107,44 @@
     margin-top: 5px;
   }
 
+  .session_cards {
+    margin-top: 38px;
+  }
+
+  .search-button{
+    display: flex;
+    height: 38px;
+  }
+
+  .searchButton {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  .searchTerm {
+    width: 100%;
+    border: 3px solid #00B4CC;
+    border-right: none;
+    padding: 5px;
+    height: 100%;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+  }
+
+  .searchTerm:focus{
+    color: #00B4CC;
+  }
+
+  .searchForm {
+    margin-top: 48px;
+  }
+

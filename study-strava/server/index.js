@@ -22,9 +22,11 @@ const {
   getActivitesForSimilarClasses,
   getAllFollowers,
   getAllFollowing,
+  registerStudySession,
   getFutureRegisteredStudySessions,
   getAllRegisteredStudySessions,
   getNotEnrolledFutureStudySessions,
+  getAllFutureTestsForStudent,
 } = require("../db/mysql")
 
 app.use(express.json())
@@ -81,6 +83,16 @@ app.post("/writeStudent", (req, res) => {
     })
     .catch((err) => {
       res.send(err)
+    })
+})
+
+app.post("/registerStudySession", (req, res) => {
+  registerStudySession(req.body.sessionID, req.body.studentID.substring(1))
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((e) => {
+      res.status(404).send(e)
     })
 })
 
@@ -167,6 +179,7 @@ app.get("/getStudentData/:studentID", (req, res) => {
     getAllFollowing(req.params.studentID),
     getFutureRegisteredStudySessions(req.params.studentID),
     getAllRegisteredStudySessions(req.params.studentID),
+    getAllFutureTestsForStudent(req.params.studentID)
   ])
     .then((data) => {
       res.send(data)

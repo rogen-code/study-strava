@@ -5,7 +5,7 @@ import "../styles/streams.css"
 import {Container, Row, Col} from 'react-bootstrap';
 import useWindowSize from "../../helpers/screenSize"
 import UserCard from "./UserCard/UserCard"
-import ActivitiesChart from "./ActivitiesChart/ActivitiesChart"
+import ActivitiesChart from "../shared/ActivitiesChart/ActivitiesChart"
 
 
 function Stream({
@@ -82,6 +82,7 @@ function Stream({
               <ActivitiesChart
                 upcomingStudySession={upcomingStudySession}
                 setActiveTab={setActiveTab}
+                toPage="Study Sessions"
               />
 
             </Col>

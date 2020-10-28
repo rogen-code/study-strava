@@ -323,6 +323,19 @@ module.exports.getAllTestsForStudent = (studentID) => {
   })
 }
 
+module.exports.getAllFutureTestsForStudent = (studentID) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select distinct test_id, test_name, test_date, test_description, classes.class_name, teachers.teacher_name from Tests join Classes on tests.class_id=classes.class_id join Classes_Students on tests.class_id=Classes_Students.class_id join Teachers on Classes.teacher_id=Teachers.teacher_id where Classes_Students.class_id in (select class_id from Classes_Students where student_id=?) and test_date > Now() ORDER BY DATE(test_date) ASC;`,
+      [studentID],
+      (error, results) => {
+        if (error) reject(error)
+        resolve(results)
+      }
+    )
+  })
+}
+
 module.exports.getAllFollowers = (studentID) => {
   return new Promise((resolve, reject) => {
     pool.query(

@@ -27,6 +27,7 @@ function App() {
   const [youFollow, setYouFollow] = useState([])
   const [yourUpcomingStudySessions, setYourUpcomingStudySessions] = useState([])
   const [yourStudySessions, setYourStudySessions] = useState([])
+  const [futureTests, setFutureTests] = useState([])
 
   const studentID = window.location.pathname
 
@@ -57,6 +58,8 @@ function App() {
         setYourUpcomingStudySessions(upcomingStudySession)
         const historicalStudySession = res.data[8]
         setYourStudySessions(historicalStudySession)
+        const futureTestsData = res.data[9]
+        setFutureTests(futureTestsData)
       })
       .catch((e) => {
         console.log(e)
@@ -108,6 +111,11 @@ function App() {
       {activeTab === "Study Sessions" && (
         <StudySession
           studentID={studentID}
+          setActiveTab={setActiveTab}
+          futureTests={futureTests}
+          yourUpcomingStudySessions={yourUpcomingStudySessions}
+          update={update}
+          setUpdate={didUpdate}
         />
       )}
     </div>
