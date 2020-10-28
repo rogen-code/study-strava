@@ -19,7 +19,8 @@
     "react-icons": "^3.11.0",
     "react-scripts": "3.4.3",
     "styled-components": "^5.2.0",
-    "validator": "^13.1.17"
+    "validator": "^13.1.17",
+    "xss": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

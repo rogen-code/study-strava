@@ -27,10 +27,13 @@ function NavigationBar({ classes, studentName, school, update, setUpdate, setAct
             <Nav.Item onClick={() => setActiveTab('Stream')}>
               <Nav.Link eventKey="2">Stream</Nav.Link>
             </Nav.Item>
+            <Nav.Item onClick={() => setActiveTab('Study Sessions')}>
+              <Nav.Link eventKey="3">Study Sessions</Nav.Link>
+            </Nav.Item>
           </Nav>
           <Nav>
           <Nav.Item className={(size.width > 768) && "ml-auto"} onClick={() => toggleShow(!show)}>
-             <Nav.Link eventKey="3">{size.width > 768 ? "+" : "Add Event"}</Nav.Link>
+             <Nav.Link eventKey="4">{size.width > 768 ? "+" : "Add Event"}</Nav.Link>
           </Nav.Item>
           </Nav>
           <RegisterModal

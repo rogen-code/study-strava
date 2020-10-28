@@ -15,7 +15,6 @@ function ActivityCardCol({ otherActivities }) {
     const hr = Number(dt.substring(11, 13))
     const min = Number(dt.substring(14, 16))
     const sec = Number(dt.substring(17, 19))
-    console.log(year, month, day, hr, min, sec)
     return formatDistanceToNow(new Date(year, month, day, hr, min, sec))
   }
 

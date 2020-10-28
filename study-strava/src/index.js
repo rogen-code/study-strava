@@ -9,6 +9,7 @@ import Calendar from "./components/calendar/calendar.js"
 import NavigationBar from "./components/navbar/navbar"
 import ClassRegistration from "./components/sidebar/ClassRegistration"
 import Stream from "./components/stream/Stream"
+import StudySession from "./components/study_sessions/study_sessions"
 
 
 function App() {
@@ -102,6 +103,11 @@ function App() {
           youFollow={youFollow}
           userActivities={userActivities}
           upcomingStudySession={yourUpcomingStudySessions}
+        />
+      )}
+      {activeTab === "Study Sessions" && (
+        <StudySession
+          studentID={studentID}
         />
       )}
     </div>

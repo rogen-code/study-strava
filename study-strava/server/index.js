@@ -2,6 +2,8 @@ const express = require("express")
 const app = express()
 const port = 4000
 const cors = require("cors")
+var xss = require("xss");
+
 
 const {
   writeSchools,
@@ -193,6 +195,21 @@ app.get("/getAllClassesAtSchool/:schoolName", cors(), (req, res) => {
     })
     .catch((e) => {
       res.send(e)
+    })
+})
+
+app.get("/getNotEnrolled/:query", (req, res) => {
+  const splitQuery = req.params.query.split("&")
+  const studentID = splitQuery[0]
+  const offset = splitQuery[1]
+  const query = xss(splitQuery[2])
+  getNotEnrolledFutureStudySessions(Number(studentID), Number(offset) * 20, query)
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((e) => {
+      console.log(e)
+      res.status(400).send(e)
     })
 })
 

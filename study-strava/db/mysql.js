@@ -375,10 +375,10 @@ module.exports.getFutureRegisteredStudySessions = (studentID) => {
   })
 }
 
-module.exports.getNotEnrolledFutureStudySessions = (studentID, offset = 0) => {
+module.exports.getNotEnrolledFutureStudySessions = (studentID, offset = 0, query) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions JOIN Teachers on Study_sessions.teacher_id=Teachers.teacher_id join Classes on Teachers.teacher_id=Classes.teacher_id and session_date > Now() and session_id NOT IN (select session_id from Session_Registrations where Session_Registrations.student_id = ?)  and Classes.class_name in (select class_name from Classes where class_id in (select class_id from Classes_Students where student_id= ?)) ORDER BY DATE(session_date) ASC LIMIT 20 OFFSET ?;`,
+      `select DISTINCT Study_Sessions.session_id, session_name, session_url, session_date, session_description, likes, teachers.teacher_name from Study_Sessions JOIN Teachers on Study_sessions.teacher_id=Teachers.teacher_id join Classes on Teachers.teacher_id=Classes.teacher_id and session_date > Now() and session_id NOT IN (select session_id from Session_Registrations where Session_Registrations.student_id = ?)  and Classes.class_name in (select class_name from Classes where class_id in (select class_id from Classes_Students where student_id= ?)) WHERE Study_Sessions.session_name like '%${query}%' or teachers.teacher_name like '%${query}%' ORDER BY DATE(session_date) ASC LIMIT 20 OFFSET ?;`,
       [studentID, studentID, offset],
       (error, results) => {
         if (error) reject(error)
@@ -387,7 +387,6 @@ module.exports.getNotEnrolledFutureStudySessions = (studentID, offset = 0) => {
     )
   })
 }
-
 
 module.exports.getAllRegisteredStudySessions = (studentID) => {
   return new Promise((resolve, reject) => {
