@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import axios from 'axios'
 
 import ClassItems from "./ClassItems"
+import { Modal, Button } from 'react-bootstrap';
+
 
 function ClassRegistrationModal({
   possibleClasses,
@@ -11,6 +13,9 @@ function ClassRegistrationModal({
   update
 }) {
   const [register, setRegister] = useState([])
+  const [show, setShow] = useState(true);
+
+  const handleClose = () => setShow(false);
 
   const handleClick = (val) => {
     let alreadyExists = false
@@ -53,6 +58,7 @@ function ClassRegistrationModal({
         .then((res) => {
           setRegister([])
           setUpdate()
+          setShow(false)
         })
         .catch((e) => {
           var x =7;
@@ -61,23 +67,30 @@ function ClassRegistrationModal({
   }
 
   return (
-    <div>
-      {possibleClasses.map((classInfo) => (
-        <ClassItems
-          studentName={studentName}
-          schoolName={schoolName}
-          className={classInfo.class_name}
-          teacherName={classInfo.teacher_name}
-          periodNumber={classInfo.period_number}
-          handleClick={handleClick}
-          register={register}
-          update={update}
-        />
-      ))}
-      <button type="submit" onClick={handleSubmit}>
-        Submit Registration
-      </button>
-    </div>
+    <Modal onHide={handleClose} backdrop="static" keyboard={false}>
+      <Modal.Header closeButton>
+        <Modal.Title>Modal title</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {possibleClasses.map((classInfo) => (
+          <ClassItems
+            studentName={studentName}
+            schoolName={schoolName}
+            className={classInfo.class_name}
+            teacherName={classInfo.teacher_name}
+            periodNumber={classInfo.period_number}
+            handleClick={handleClick}
+            register={register}
+            update={update}
+          />
+        ))}
+      </Modal.Body>
+      <Modal.footer>
+        <Button type="submit" onClick={handleSubmit}>
+          Submit Registration
+        </Button>
+      </Modal.footer>
+    </Modal>
   )
 }
 

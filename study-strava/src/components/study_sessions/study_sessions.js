@@ -3,13 +3,30 @@ import axios from 'axios'
 import {Container, Row, Col} from 'react-bootstrap';
 import useWindowSize from "../../helpers/screenSize"
 
+import ClassRegistration from "../shared/ClassRegistration/ClassRegistration"
 import UpcomingTestChart from "../shared/UpcomingTests/UpcomingTests"
-import ActivitiesChart from "../shared/ActivitiesChart/ActivitiesChart"
+import Biography from "../shared/Biography/Biography"
 import SearchBar from "./SearchBar"
 import SessionCards from "./SessionCards"
+import UserCard from "../shared/UserCard/UserCard"
 
 
-function StudySession({ studentID, setActiveTab, futureTests, yourUpcomingStudySessions, update, setUpdate }) {
+
+function StudySession({
+  studentID,
+  setActiveTab,
+  futureTests,
+  yourUpcomingStudySessions,
+  update,
+  setUpdate,
+  studentName,
+  activityCount,
+  yourFollowers,
+  youFollow,
+  userActivities,
+  school,
+  classes,
+}) {
   let size = useWindowSize()
   let width = size.width
 
@@ -85,19 +102,17 @@ function StudySession({ studentID, setActiveTab, futureTests, yourUpcomingStudyS
       <Row noGutters={true}>
         {width >= 768 && (
           <Col className="cards">
+            <UserCard
+              studentName={studentName}
+              activityCount={activityCount}
+              yourFollowers={yourFollowers}
+              youFollow={youFollow}
+              userActivities={userActivities}
+            />
             <UpcomingTestChart
               upcomingStudySession={futureTests}
               setActiveTab={setActiveTab}
               toPage="Calendar"
-            />
-            <ActivitiesChart
-              upcomingStudySession={yourUpcomingStudySessions}
-              setActiveTab={setActiveTab}
-              toPage={"Register Classes"}
-              studentID={studentID}
-              getNewData={getNewData}
-              update={update}
-              setUpdate={setUpdate}
             />
           </Col>
         )}
@@ -117,10 +132,17 @@ function StudySession({ studentID, setActiveTab, futureTests, yourUpcomingStudyS
           />
         </Col>
         {width > 1200 && (
-            <Col>
-              <div className="vertical-placeholder"></div>
-            </Col>
-          )}
+          <Col>
+            <Biography />
+            <ClassRegistration
+              school={school}
+              classes={classes}
+              studentName={studentName}
+              setUpdate={setUpdate}
+              update={update}
+            />
+          </Col>
+        )}
       </Row>
       <div
         id='page-bottom-boundary'

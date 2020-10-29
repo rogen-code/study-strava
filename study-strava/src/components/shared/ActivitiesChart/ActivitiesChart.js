@@ -5,10 +5,18 @@ import DeleteButton from "./DeleteButton"
 
 
 
-function ActivityChart({ upcomingStudySession, setActiveTab, toPage, studentID, getNewData, update, setUpdate }) {
+function ActivityChart({
+  upcomingStudySession,
+  setActiveTab,
+  toPage,
+  studentID,
+  getNewData,
+  update,
+  setUpdate
+}) {
   const sessions = []
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 5; i += 1) {
     if (upcomingStudySession[i] === undefined) break;
 
     const dt = upcomingStudySession[i].session_date

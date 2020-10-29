@@ -1,5 +1,8 @@
 import React from "react"
-import "../styles/sidebar.css"
+import "../../styles/sidebar.css"
+
+import { Card, ListGroup } from 'react-bootstrap';
+
 
 import ClassButton from "./classButton"
 import SchoolButton from "./SchoolButton"
@@ -12,25 +15,24 @@ function ClassRegistration({
   update
 }) {
   return (
-    <div id="sidebar">
-      {classes.map((className) => (
-        <ClassButton
-          className={className.class_name}
-          teacherName={className.teacher_name}
-          school={school}
-          studentName={studentName}
-          setUpdate={setUpdate}
-          update={update}
-        />
-      ))}
-      <SchoolButton
+    <Card style={{ width: '18rem' }}>
+      <Card.Header>Your Classes</Card.Header>
+      <ClassButton
+        classes={classes}
+        student={studentName}
+        school={school}
+        setUpdate={setUpdate}
+        update={update}
+      />
+
+      {/* <SchoolButton
         schoolName={school}
         studentName={studentName}
         setUpdate={setUpdate}
         update={update}
         classes={classes}
-      />
-    </div>
+      /> */}
+    </Card>
   )
 }
 

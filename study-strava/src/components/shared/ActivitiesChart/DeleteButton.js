@@ -5,7 +5,8 @@ function DeleteButton({ sessionID, studentID, getNewData, update, setUpdate }) {
 
   function handleClick() {
     axios
-      .delete(`http://localhost:4000/deleteSession/${sessionID}/${studentID.substring(1)}`)
+      .delete(
+        `http://localhost:4000/deleteSession/${sessionID}/${studentID.substring(1)}`)
       .then((r) => {
         setUpdate(!update)
       })

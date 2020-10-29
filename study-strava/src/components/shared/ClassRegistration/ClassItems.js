@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../styles/sidebar.css"
+import "../../styles/sidebar.css"
 
 function ClassItems({
   studentName,

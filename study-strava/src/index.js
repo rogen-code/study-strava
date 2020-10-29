@@ -116,6 +116,13 @@ function App() {
           yourUpcomingStudySessions={yourUpcomingStudySessions}
           update={update}
           setUpdate={didUpdate}
+          studentName={studentName}
+          activityCount={activityCount}
+          youFollow={youFollow}
+          userActivities={userActivities}
+          yourFollowers={yourFollowers}
+          school={school}
+          classes={classes}
         />
       )}
     </div>

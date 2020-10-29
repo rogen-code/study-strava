@@ -4,8 +4,10 @@ import axios from 'axios'
 import "../styles/streams.css"
 import {Container, Row, Col} from 'react-bootstrap';
 import useWindowSize from "../../helpers/screenSize"
-import UserCard from "./UserCard/UserCard"
+import UserCard from "../shared/UserCard/UserCard"
 import ActivitiesChart from "../shared/ActivitiesChart/ActivitiesChart"
+import Biography from "../shared/Biography/Biography"
+
 
 
 function Stream({
@@ -93,7 +95,7 @@ function Stream({
           </Col>
           {width > 1200 && (
             <Col>
-              <div className="vertical-placeholder"></div>
+              <Biography />
             </Col>
           )}
         </Row>
