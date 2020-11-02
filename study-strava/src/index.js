@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Calendar from "./components/calendar/calendar.js"
 import NavigationBar from "./components/navbar/navbar"
-import ClassRegistration from "./components/sidebar/ClassRegistration"
 import Stream from "./components/stream/Stream"
 import StudySession from "./components/study_sessions/study_sessions"
 
@@ -106,6 +105,10 @@ function App() {
           youFollow={youFollow}
           userActivities={userActivities}
           upcomingStudySession={yourUpcomingStudySessions}
+          school={school}
+          classes={classes}
+          update={update}
+          setUpdate={setUpdate}
         />
       )}
       {activeTab === "Study Sessions" && (

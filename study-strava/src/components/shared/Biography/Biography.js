@@ -4,7 +4,7 @@ import {Card} from 'react-bootstrap';
 
 function Biography() {
   return (
-    <div id="right">
+    <div>
       <Card style={{ width: '18rem' }}>
         <Card.Body>
           <Card.Title>From The Website Maker</Card.Title>

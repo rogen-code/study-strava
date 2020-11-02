@@ -154,11 +154,15 @@
     justify-content: space-between;
   }
 
-  #right {
+  .right {
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-top: 55px;
+    height: 100vh;
+  }
+
+  .classes-register {
+    margin-top: 25px;
   }
 

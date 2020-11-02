@@ -15,7 +15,7 @@ function ClassRegistration({
   update
 }) {
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '18rem' }} className="classes-register">
       <Card.Header>Your Classes</Card.Header>
       <ClassButton
         classes={classes}
@@ -25,13 +25,13 @@ function ClassRegistration({
         update={update}
       />
 
-      {/* <SchoolButton
+      <SchoolButton
         schoolName={school}
         studentName={studentName}
         setUpdate={setUpdate}
         update={update}
         classes={classes}
-      /> */}
+      />
     </Card>
   )
 }

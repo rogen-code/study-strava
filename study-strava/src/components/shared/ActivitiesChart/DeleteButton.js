@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from "axios"
+import { Button } from 'react-bootstrap';
+
 
 function DeleteButton({ sessionID, studentID, getNewData, update, setUpdate }) {
 
@@ -16,7 +18,12 @@ function DeleteButton({ sessionID, studentID, getNewData, update, setUpdate }) {
   }
 
   return (
-    <button onClick={() => handleClick()}>X</button>
+    <Button
+      size="sm"
+      variant="outline-danger"
+      onClick={() => handleClick()}>
+      X
+    </Button>
   )
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup, Button } from 'react-bootstrap';
 
 
 function ClassButton({
@@ -48,14 +48,16 @@ function ClassButton({
           >
             {c.class_name}
           </div>
-          <div
+          <Button
             onClick={() => handleDelete(student, school, c.class_name, c.teacher_name, c.period_number)}
             role="button"
             tabIndex={0}
             onKeyDown={() => handleDelete(student, school, c.class_name, c.teacher_name, c.period_number)}
+            variant="outline-danger"
+            size="sm"
           >
             X
-          </div>
+          </Button>
         </ListGroup.Item>
       ))}
     </ListGroup>

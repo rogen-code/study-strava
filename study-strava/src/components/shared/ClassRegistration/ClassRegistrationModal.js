@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import axios from 'axios'
 
-import ClassItems from "./ClassItems"
 import { Modal, Button } from 'react-bootstrap';
+import ClassItems from "./ClassItems"
 
 
 function ClassRegistrationModal({
@@ -10,12 +10,13 @@ function ClassRegistrationModal({
   studentName,
   schoolName,
   setUpdate,
-  update
+  update,
+  setClicked,
+  clicked
 }) {
   const [register, setRegister] = useState([])
-  const [show, setShow] = useState(true);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setClicked(false);
 
   const handleClick = (val) => {
     let alreadyExists = false
@@ -58,7 +59,7 @@ function ClassRegistrationModal({
         .then((res) => {
           setRegister([])
           setUpdate()
-          setShow(false)
+          setClicked(false)
         })
         .catch((e) => {
           var x =7;
@@ -67,7 +68,12 @@ function ClassRegistrationModal({
   }
 
   return (
-    <Modal onHide={handleClose} backdrop="static" keyboard={false}>
+    <Modal
+      show={clicked}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Header closeButton>
         <Modal.Title>Modal title</Modal.Title>
       </Modal.Header>
@@ -85,11 +91,11 @@ function ClassRegistrationModal({
           />
         ))}
       </Modal.Body>
-      <Modal.footer>
+      <Modal.Footer>
         <Button type="submit" onClick={handleSubmit}>
           Submit Registration
         </Button>
-      </Modal.footer>
+      </Modal.Footer>
     </Modal>
   )
 }

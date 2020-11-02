@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import ClassRegistrationModal from "./ClassRegistrationModal"
 import { Button } from 'react-bootstrap';
 
 import axios from 'axios'
+import ClassRegistrationModal from "./ClassRegistrationModal"
 
 function SchoolButton({
   schoolName,
@@ -44,19 +44,21 @@ function SchoolButton({
         type="button"
         onClick={() => handleClick()}
         onKeyDown={() => handleClick()}
-        schoolName="schoolName"
+        schoolname="schoolName"
       >
         Add Classes
       </Button>
-      {/* {clicked && (
+      {clicked && (
         <ClassRegistrationModal
           possibleClasses={possibleClasses}
           studentName={studentName}
           schoolName={schoolName}
+          setClicked={setClicked}
           setUpdate={setUpdate}
           update={update}
+          clicked={clicked}
         />
-      )} */}
+      )}
     </>
   )
 }

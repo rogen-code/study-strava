@@ -132,7 +132,7 @@ function StudySession({
           />
         </Col>
         {width > 1200 && (
-          <Col>
+          <Col className="right">
             <Biography />
             <ClassRegistration
               school={school}

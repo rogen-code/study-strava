@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState, useRef, useCallback } from 'react'
-import ActivityCardCol from "./UserCard/ActivityCard"
+import ActivityCardCol from "../shared/UserCard/ActivityCard"
 import axios from 'axios'
 import "../styles/streams.css"
 import {Container, Row, Col} from 'react-bootstrap';
@@ -7,8 +7,7 @@ import useWindowSize from "../../helpers/screenSize"
 import UserCard from "../shared/UserCard/UserCard"
 import ActivitiesChart from "../shared/ActivitiesChart/ActivitiesChart"
 import Biography from "../shared/Biography/Biography"
-
-
+import ClassRegistration from "../shared/ClassRegistration/ClassRegistration"
 
 function Stream({
   activeTab,
@@ -19,7 +18,11 @@ function Stream({
   youFollow,
   userActivities,
   upcomingStudySession,
-  setActiveTab
+  setActiveTab,
+  school,
+  classes,
+  setUpdate,
+  update
 }) {
   let size = useWindowSize()
   let width = size.width
@@ -94,8 +97,15 @@ function Stream({
             <ActivityCardCol otherActivities={activityData} />
           </Col>
           {width > 1200 && (
-            <Col>
+            <Col className="right">
               <Biography />
+              <ClassRegistration
+                school={school}
+                classes={classes}
+                studentName={studentName}
+                setUpdate={setUpdate}
+                update={update}
+              />
             </Col>
           )}
         </Row>
